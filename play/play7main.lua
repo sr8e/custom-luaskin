@@ -34,9 +34,6 @@ function is_judge_detail_early_late()
 	return skin_config.option["Judge Detail"] == 911
 end
 
-function is_judge_detail_ms()
-	return skin_config.option["Judge Detail"] == 912
-end
 
 -- timers
 function timer_key_bomb(index)
@@ -98,8 +95,7 @@ local property = {
 	}},
 	{name = "Judge Detail", item = {
 		{name = "Off", op = 910},
-		{name = "EARLY/LATE", op = 911},
-		{name = "+-ms", op = 912}
+		{name = "EARLY/LATE", op = 911}
 	}}
 }
 
@@ -266,126 +262,9 @@ local function main()
 		})
 	end
 
-	local num_src={
-		n = {
-			x = 0, w = 12, h = 18,
-			y = {b = 43, w = 62, r = 81}
-		},
-
-		b = {
-			x = 0, w = 34, h = 20,
-			y = {b = 0, w = 22}
-		},
-
-		p = {
-			x = 0, w = 28, h = 19,
-			y = {w = 0}
-		},
-		j = {
-			x = 153, w = 37, h = 56,
-			y = {pg = 0, y = 168}
-		}
-	}
-	local function value_resource(id, src_name, col, divx, digit, ref, padding, divy, cycle)
-		padding = padding or 0
-		divy = divy or 1
-		cycle = cycle or 0
-		local src = "ec_num"
-		if src_name == "p" then
-			src = "ec_num_p"
-		elseif src_name == "j" then
-			src = "ec_obj"
-		end
-		local pos = num_src[src_name]
-		return {
-			id = id,
-			src = src,
-			x = pos.x,
-			y = pos.y[col],
-			w = pos.w * divx,
-			h = pos.h * divy,
-			divx = divx,
-			digit = digit,
-			ref = ref,
-			padding = padding,
-			divy = divy,
-			cycle = cycle
-		}
-	end
-
-	skin.value = {
-		-- value_resource(id, src_name, color, divx, digit, ref, padding=0, divy=1, cycle=0)
-		-- bpm indicator
-		value_resource("minbpm", "p", "w", 11, 4, 91),
-		value_resource("nowbpm", "p", "w", 11, 4, 160),
-		value_resource("maxbpm", "p", "w", 11, 4, 90),
-		-- time left
-		value_resource("timeleft-m", "n", "w", 10, 2, 163),
-		value_resource("timeleft-s", "n", "w", 10, 2, 164, 1),
-		-- hi-speed
-		value_resource("hispeed", "n", "w", 10, 2, 310),
-		value_resource("hispeed-d", "n", "w", 10, 2, 311, 1),
-		-- ?
-		value_resource("duration", "n", "w", 10, 4, 312),
-		-- gauge
-		value_resource("gaugevalue", "p", "w", 10, 3, 107),
-		value_resource("gaugevalue-d", "p", "w", 10, 1, 407),
-		-- score rate
-		value_resource("graphvalue-rate", "n", "w", 10, 3, 102),
-		value_resource("graphvalue-rate-d", "n", "w", 10, 2, 103, 1),
-		-- score value
-		value_resource("currentscore", "p", "w", 10, 5, 71),
-		value_resource("bestscore", "p", "w", 10, 5, 150),
-		value_resource("targetscore", "p", "w", 10, 5, 121),
-		-- notes
-		value_resource("totalnotes", "n", "w", 10, 5, 106),
-		-- lanecover
-		value_resource("lanecover-value", "n", "w", 10, 3, 14),
-		value_resource("lanecover-duration", "n", "w", 10, 4, 312),
-		--lift
-		value_resource("liftcover-value", "n", "w", 10, 3, 314),
-		value_resource("liftcover-duration", "n", "w", 10, 4, 312),
-		-- combo
-		value_resource("combo-pg", "j", "pg", 10, 6, 75, 0, 3, 100),
-		value_resource("combo-gr", "j", "y", 10, 6, 75),
-		value_resource("combo-gd", "j", "y", 10, 6, 75),
-
-		{id = "judgems-1pp", src = 13, x = 0, y = 20, w = 120, h = 40, divx = 12, divy = 2, digit = 4, ref = 525},
-		{id = "judgems-1pg", src = 13, x = 0, y = 60, w = 120, h = 40, divx = 12, divy = 2, digit = 4, ref = 525}
-	}
-
-	local timings = { "", "-e", "-l" }
-	local timings_early_late = { "-e", "-l" }
-
-	local function value_jc(j, t)
-		if j <= 5 then
-			if t == 1 then
-				return 109 + j
-			else
-				return 410 + (j - 1)*2 + (t - 2)
-			end
-		else
-			return 420 + (t - 1)
-		end
-	end
-	local function judge_count_sources(prefix, number_image_id)
-		local jc_src = {}
-		local colour = {"w","b","r"}
-		for ij, j in ipairs(judges) do
-			for it, t in ipairs(timings) do
-				table.insert(jc_src, {
-					id = prefix..j..t,
-					src = number_image_id,
-					x = num_src.n.x, y = num_src.n.y[colour[it]], w = num_src.n.w*10, h = num_src.n.h,
-					divx = 10,
-					digit = 4,
-					ref = value_jc(ij, it),
-				})
-			end
-		end
-		return jc_src
-	end 
-	append_all(skin.value, judge_count_sources("judge-count-", "ec_num"))
+	-- values
+	local values = require("values")
+	skin.value = values.src
 
 	-- judge
 	local judge_main = require("judge")
@@ -454,45 +333,7 @@ local function main()
 			{x = 0, y = 0, w = 1280, h = 720}
 		}},
 		]]
-		{id = "minbpm", dst = {
-			{x = 345, y = 10, w = 28, h = 21}
-		}},
-		{id = "nowbpm", dst = {
-			{x = 480, y = 10, w = 28, h = 21}
-		}},
-		{id = "maxbpm", dst = {
-			{x = 614, y = 10, w = 28, h = 21}
-		}},
-		{id = "timeleft-m", dst = {
-			{x = 305, y = 164, w = 16, h = 24}
-		}},
-		{id = "timeleft-s", dst = {
-			{x = 350, y = 164, w = 16, h = 24}
-		}},
-		{id = "hispeed", dst = {
-			{x = 116, y = 2, w = 12, h = 24}
-		}},
-		{id = "hispeed-d", dst = {
-			{x = 154, y = 2, w = 10, h = 20}
-		}},
 		
-		{
-			id="currentscore",
-			dst={
-				{x=1000, y=1000, w = 28, h = 19}
-			}
-		},
-		{
-			id="targetscore",
-			dst={
-				{x=1000, y=965, w = 28, h = 19}
-			}
-		},
-		{
-			id = "totalnotes", dst={
-				{x=980, y=120, w=16, h=24}
-			}	
-		},
 		{id = 13, dst = {
 			{x = geometry.progress_x + 2, y = geometry.progress_y, w = geometry.progress_w - 4, h = geometry.progress_h}
 		}},
@@ -501,10 +342,8 @@ local function main()
 			{time = 0, x = geometry.lanebg_x, y = 251, w = geometry.lanebg_w, h = 0, a = 0},
 			{time = 1000, h = 828, a = 255}
 		}},
-		{id = "keys", dst = {
-			{x = geometry.lanes_x, y = 550, w = geometry.lanes_w, h = 80}
-		}}
 	}
+	append_all(skin.destination, values.dst)
 	for _, i in ipairs(keybeam_order) do
 		name = i
 		if i == 25 then
@@ -565,14 +404,6 @@ local function main()
 			{time = 0, x = geometry.judgedetail_x, y = geometry.judgedetail_y, w = 50, h = 20},
 			{time = 500}
 		}},
-		{id = "judgems-1pp", loop = -1, timer = 46 ,op = {912,241},offsets = {3, 33}, dst = {
-			{time = 0, x = geometry.judgedetail_x, y = geometry.judgedetail_y, w = 10, h = 20},
-			{time = 500}
-		}},
-		{id = "judgems-1pg", loop = -1, timer = 46 ,op = {912,-241},offsets = {3, 33}, dst = {
-			{time = 0, x = geometry.judgedetail_x, y = geometry.judgedetail_y, w = 10, h = 20},
-			{time = 500}
-		}},
 		{id = "hidden-cover", dst = {
 			{x = geometry.lanes_x, y = -440, w = geometry.lanes_w, h = 580}
 		}},
@@ -587,14 +418,7 @@ local function main()
 		{id = "gauge", dst = {
 			{time = 0, x = geometry.gauge_x, y = 96, w = geometry.gauge_w, h = 51}
 		}},
-		{id = "gaugevalue", dst = {
-			{time = 0, x = geometry.gaugevalue_x, y = 180, w = 45, h = 45}
-		}},
-		--[[
-		{id = "gaugevalue-d", dst = {
-			{time = 0, x = geometry.gaugevalue_x + 72, y = 180, w = 18, h = 18}
-		}}
-		]]
+
 	})
 	append_all(skin.destination, {
 		{id = "bga", offset = 43, dst = {
@@ -629,18 +453,7 @@ local function main()
 		--{id = 12, op = {901},dst = {
 		--	{x = geometry.graph_x, y = geometry.graph_y, w = geometry.graph_w, h = geometry.graph_h}
 		--}},
-		{
-			id = "graphvalue-rate",
-			dst = {
-				{x = 180, y = 206, w = 16, h = 24}
-			}
-		},
-		{
-			id = "graphvalue-rate-d",
-			dst = {
-				{x = 244, y = 206, w = 16, h = 24}
-			}
-		},
+
 		{id = 422, op = {901},dst = {
 			{x = 1012, y = 995, w = 28, h = 19}
 		}},
@@ -657,40 +470,8 @@ local function main()
 			{x = geometry.progress_x, y = geometry.progress_y + geometry.progress_h - 20, w = geometry.progress_w, h = 20}
 		}},
 	})
-	local function judge_count_destinations(prefix, pos_x, pos_y, ops, offset)
-		local destinations = {}
-		for y, j in ipairs(judges) do
-			for x, t in ipairs(timings) do
-				table.insert(destinations, {
-					id = prefix..j..t,
-					op = ops,
-					dst = {
-						{x = pos_x + (x - 1) * 60, y = pos_y + 90 - (y - 1) * 18, w = 12, h = 18}
-					}
-				})
-			end
-		end
-		if offset >= 0 then
-			for _, dst in ipairs(destinations) do
-				dst.offset = offset
-			end
-		end
-		return destinations
-	end
-	append_all(skin.destination, judge_count_destinations("judge-count-", geometry.judgecount_x, geometry.judgecount_y, {906}, 42))
+
 	append_all(skin.destination, {
-		{id = "lanecover-value", offset = 4, op = {270},dst = {
-			{time = 0, x = geometry.lanes_x + geometry.lanes_w / 3 - 24, y = geometry.resolution.y - 27, w = 18, h = 27}
-		}},
-		{id = "lanecover-duration", offset = 4, op = {270},dst = {
-			{time = 0, x = geometry.lanes_x + geometry.lanes_w * 2 / 3 - 24, y = geometry.resolution.y - 27, w = 18, h = 27}
-		}},
-		{id = "liftcover-value", offset = 3, op = {270},dst = {
-			{time = 0, x = geometry.lanes_x + geometry.lanes_w / 3 - 24, y = geometry.judge_line_y + 6 , w = 18, h = 27}
-		}},
-		{id = "liftcover-duration", offset = 3, op = {270},dst = {
-			{time = 0, x = geometry.lanes_x + geometry.lanes_w * 2 / 3 - 24, y = geometry.judge_line_y + 6, w = 18 , h = 27}
-		}},
 		{id = "load-progress", loop = 0, op = {80}, dst = {
 			{time = 0, x = geometry.lanes_x, y = 440, w = geometry.lanes_w, h = 4},
 			{time = 500, a = 192, r = 0},
