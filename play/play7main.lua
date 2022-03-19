@@ -211,13 +211,6 @@ local function main()
 		{id = "gauge-y3", src = 3, x = 10, y = 34, w = 5, h = 17},
 		{id = "gauge-p3", src = 3, x = 15, y = 34, w = 5, h = 17},
 
-		{id = "judgef-pg", src = "ec_obj", x = 0, y = 0, w = judgef_src_w, h = judge_src_h*3, divy = 3, cycle = 100},
-		{id = "judgef-gr", src = "ec_obj", x = 0, y = 168, w = judgef_src_w, h = judge_src_h},
-		{id = "judgef-gd", src = "ec_obj", x = 293, y = 433, w = judgef_src_w, h = judge_src_h},
-		{id = "judgef-bd", src = "ec_obj", x = 449, y = 433, w = judgef_src_w - 20, h = judge_src_h},
-		{id = "judgef-pr", src = "ec_obj", x = 570, y = 433, w = judgef_src_w, h = judge_src_h},
-		{id = "judgef-ms", src = "ec_obj", x = 570, y = 433, w = judgef_src_w, h = judge_src_h},
-
 		{id = "judge-early", src = 13, x = 0, y = 0, w = 50, h = 20},
 		{id = "judge-late", src = 13, x = 50, y = 0, w = 50, h = 20}
 	}
@@ -393,6 +386,14 @@ local function main()
 		return jc_src
 	end 
 	append_all(skin.value, judge_count_sources("judge-count-", "ec_num"))
+
+	-- judge
+	local judge_main = require("judge")
+	local judge = judge_main("single")
+	append_all(skin.image, judge.src)
+
+	skin.judge = judge.dst
+
 	skin.text = {
 		{id = "song-title", font = 0, size = 24, align = geometry.title_align, ref = 12}
 	}
@@ -432,58 +433,7 @@ local function main()
 			,"gauge-y1","gauge-p1","gauge-y2","gauge-p2","gauge-y3","gauge-p3"
 			,"gauge-p1","gauge-p1","gauge-p2","gauge-p2","gauge-p3","gauge-p3"}
 	}
-	skin.judge = {
-		{
-			id = "judge",
-			index = 0,
-			images = {
-				{id = "judgef-pg", loop = -1, timer = 46 ,offsets = {3, 32}, dst = {
-					{time = 0, x = geometry.judge_x, y = judge_y, w = judgef_w, h = judge_h},
-					{time = 500}
-				}},
-				{id = "judgef-gr", loop = -1, timer = 46 ,offsets = {3, 32}, dst = {
-					{time = 0, x = geometry.judge_x, y = judge_y, w = judgef_w, h = judge_h},
-					{time = 500}
-				}},
-				{id = "judgef-gd", loop = -1, timer = 46 ,offsets = {3, 32}, dst = {
-					{time = 0, x = geometry.judge_x, y = judge_y, w = judgef_w, h = judge_h},
-					{time = 500}
-				}},
-				{id = "judgef-bd", loop = -1, timer = 46 ,offsets = {3, 32}, dst = {
-					{time = 0, x = geometry.judge_x+judgen_w/2+5, y = judge_y, w = judgef_w, h = judge_h},
-					{time = 500}
-				}},
-				{id = "judgef-pr", loop = -1, timer = 46 ,offsets = {3, 32}, dst = {
-					{time = 0, x = geometry.judge_x+judgen_w/2+5, y = judge_y, w = judgef_w, h = judge_h},
-					{time = 500}
-				}},
-				{id = "judgef-ms", loop = -1, timer = 46 ,offsets = {3, 32}, dst = {
-					{time = 0, x = geometry.judge_x+judgen_w/2+5, y = judge_y, w = judgef_w, h = judge_h},
-					{time = 500}
-				}}
-			},
-			numbers = {
-				{id = "combo-pg", loop = -1, timer = 46,offsets = {3, 32},  dst = { -- 判定文字からの相対位置？
-					{time = 0, x = judgef_w+10, y = 0, w = judgen_w, h = judge_h},
-					{time = 500}
-				}},
-				{id = "combo-gr", loop = -1, timer = 46,offsets = {3, 32},  dst = {
-					{time = 0, x = judgef_w+10, y = 0, w = judgen_w, h = judge_h},
-					{time = 500}
-				}},
-				{id = "combo-gd", loop = -1, timer = 46,offsets = {3, 32},  dst = {
-					{time = 0, x = judgef_w+10, y = 0, w = judgen_w, h = judge_h},
-					{time = 500}
-				}},
-				-- combo is not shown on sub-bad judges
-				{id = "n/a"}, 
-				{id = "n/a"}, 
-				{id = "n/a"}
-			
-			},
-			shift = true
-		}
-	}
+
 	skin.bga = {
 		id = "bga"
 	}
@@ -605,8 +555,8 @@ local function main()
 			}
 		})
 	end
+	append_all(skin.destination, judge.ids)
 	append_all(skin.destination, {
-		{id = "judge"},
 		{id = "judge-early", loop = -1, timer = 46 ,op = {911,1242},offsets = {3, 33}, dst = {
 			{time = 0, x = geometry.judgedetail_x, y = geometry.judgedetail_y, w = 50, h = 20},
 			{time = 500}
