@@ -37,42 +37,62 @@ end
 
 -- timers
 function timer_key_bomb(index)
-	if index == 8 then
-		return 50
-	else
+	if index < 8 then
 		return 50 + index
+	elseif index == 8 then
+		return 50
+	elseif index < 16 then
+		return 60 + index - 8
+	elseif index == 16 then
+		return 60
 	end
 end
 
 function timer_key_hold(index)
-	if index == 8 then
-		return 70
-	else
+	if index < 8 then
 		return 70 + index
+	elseif index == 8 then
+		return 70
+	elseif index < 16 then
+		return 80 + index - 8
+	elseif index == 16 then
+		return 80
 	end
 end
 
 function timer_key_on(index)
-	if index == 8 then
-		return 100
-	else
+	if index < 8 then
 		return 100 + index
+	elseif index == 8 then
+		return 100
+	elseif index < 16 then
+		return 110 + index - 8
+	elseif index == 16 then
+		return 110
 	end
 end
 
 function timer_key_off(index)
-	if index == 8 then
-		return 120
-	else
+	if index < 8 then
 		return 120 + index
+	elseif index == 8 then
+		return 120
+	elseif index < 16 then
+		return 130 + index - 8
+	elseif index == 16 then
+		return 130
 	end
 end
 
 function value_judge(index)
-	if index == 8 then
-		return 500
-	else
+	if index < 8 then
 		return 500 + index
+	elseif index == 8 then
+		return 500
+	elseif index < 16 then
+		return 510 + index - 8
+	elseif index == 16 then
+		return 510
 	end
 end
 
@@ -141,8 +161,6 @@ end
 
 judges = {"pg", "gr", "gd", "bd", "pr", "ms"}
 
-keybeam_order = {1, 2, 3, 4, 5, 6, 7, 8}
-
 local function main()
 
 	local skin = {}
@@ -190,9 +208,7 @@ local function main()
 		{id = 13, src = 0, x = 10, y = 10, w = 10, h = 251},
 		{id = 15, src = "judgeline", x = 0, y = 0, w = 6, h = 6},
 
-		{id = "keybeam-w", src = "keybeam", x = 48, y = 0, w = 27, h = 255},
-		{id = "keybeam-b", src = "keybeam", x = 76, y = 0, w = 20, h = 255},
-		{id = "keybeam-s", src = "keybeam", x = 0, y = 0, w = 47, h = 255},
+
 		
 		{id = "gauge-r1", src = 3, x = 0, y = 0, w = 5, h = 17},
 		{id = "gauge-b1", src = 3, x = 5, y = 0, w = 5, h = 17},
@@ -217,50 +233,12 @@ local function main()
 
 	skin.note = notes.dst
 
-	local function bomb_image(index, prefix, timer_func)
-		local name = index
-		if index == 25 then
-			name = "su"
-		elseif index == 26 then
-			name = "sd"
-		end
-		return {id = prefix..name, src = "bomb", x = 0, y = 0, w = 181 * 16, h = 192, divx = 16, timer = timer_func(index), cycle = 160}
-	end
 
-	for i = 1, 8 do
-		table.insert(skin.image, bomb_image(i, "bomb-", timer_key_bomb))
-	end
+	local bb_main = require("bomb_beam")
+	local bb = bb_main("single")
+	append_all(skin.image, bb.src)
+	skin.imageset = bb.set
 
-	skin.imageset = {}
-	do
-		for i = 1, 8 do
-			local name = i
-			if i == 25 then
-				name = "su"
-			elseif i == 26 then
-				name = "sd"
-			end
-			local img_suffix = note_colors[get_key_wbs(i) + 1]
-			table.insert(skin.imageset, {
-				id = "keybeam"..name,
-				-- ref = value_judge(i),
-				images = { "keybeam-"..img_suffix }
-			})
-		end
-	end
-	for i = 1, 8 do
-		local name = i
-		if i == 25 then
-			name = "su"
-		elseif i == 26 then
-			name = "sd"
-		end
-		table.insert(skin.imageset, {
-			id = i + 109,
-			-- ref = value_judge(i),
-			images = { "bomb-"..name } 
-		})
-	end
 
 	-- values
 	local values = require("values")
@@ -344,57 +322,12 @@ local function main()
 		}},
 	}
 	append_all(skin.destination, values.dst)
-	for _, i in ipairs(keybeam_order) do
-		name = i
-		if i == 25 then
-			name = "s"
-		elseif i == 26 then
-			name = "sd"
-		end
-		table.insert(skin.destination, {
-			id = "keybeam"..name,
-			timer = timer_key_on(i),
-			loop = 100,
-			offsets = {3, 40},
-			dst = {
-				{ time = 0, x = geometry.notes_x[i] + geometry.notes_w[i] / 4, y = geometry.judge_line_y, w = geometry.notes_w[i] / 2, h = geometry.notes_area_h },
-				{ time = 100, x = geometry.notes_x[i], w = geometry.notes_w[i] }
-			}
-		})
-	end
+
 	table.insert(skin.destination, {id = 15, offset = 3, dst = { {x = geometry.lanes_x, y = geometry.judge_line_y, w = geometry.lanes_w, h = 6} }}) --判定線
 	table.insert(skin.destination, {id = "notes", offset=30})
-	for i = 1, 8 do
-		table.insert(skin.destination, {
-			id = 109 + i,
-			timer = timer_key_bomb(i),
-			blend = 2,
-			loop = -1,
-			offsets = {3, 41},
-			dst = {
-				{ time = 0, x = geometry.lanes_center_x[i] - 125, y = judge_line_y - 144, w = 270, h = 288 },
-				{ time = 160 }
-			}
-		})
-	end
-	for i = 1, 8 do
-		name = i
-		if i == 25 then
-			name = "su"
-		elseif i == 26 then
-			name = "sd"
-		end
-		table.insert(skin.destination, {
-			id = "hold-"..name,
-			timer = timer_key_hold(i),
-			blend = 2,
-			offset = 3,
-			dst = {
-				{ time = 0, x = geometry.lanes_center_x[i] - 80, y = 28, w = 180, h = 192 }
-			}
-		})
-	end
+
 	append_all(skin.destination, judge.ids)
+
 	append_all(skin.destination, {
 		{id = "judge-early", loop = -1, timer = 46 ,op = {911,1242},offsets = {3, 33}, dst = {
 			{time = 0, x = geometry.judgedetail_x, y = geometry.judgedetail_y, w = 50, h = 20},
@@ -420,6 +353,7 @@ local function main()
 		}},
 
 	})
+	append_all(skin.destination, bb.dst)
 	append_all(skin.destination, {
 		{id = "bga", offset = 43, dst = {
 			{time = 0, x = geometry.bga_x, y = geometry.bga_y, w = geometry.bga_w, h = geometry.bga_h}
