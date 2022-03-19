@@ -86,6 +86,33 @@ local function main(play_type)
 			}
 		})
     end
+
+    for i = 1, keys do
+        table.insert(src, {
+            id = "hold-"..i,
+            src = "bomb",
+            x = 0,
+            y = 0,
+            w = 181 * 16,
+            h = 192,
+            divx = 16,
+            timer = timer_key_hold(i),
+            cycle = 160
+        })
+    end
+
+    for i = 1, keys do
+        table.insert(dst, {
+            id = "hold-"..i,
+            timer = timer_key_hold(i),
+            blend = 2,
+            offset = 3,
+            dst = {
+                { time = 0, x = geometry.lanes_center_x[i] - 125, y = geometry.judge_line_y - 144, w = 270, h = 288 },
+                { time = 160 }
+            }
+        })
+    end
     
     return {
         src = src,
