@@ -197,9 +197,6 @@ local function main()
 		{id = "keybeam-w", src = "keybeam", x = 48, y = 0, w = 27, h = 255},
 		{id = "keybeam-b", src = "keybeam", x = 76, y = 0, w = 20, h = 255},
 		{id = "keybeam-s", src = "keybeam", x = 0, y = 0, w = 47, h = 255},
-
-
-		{id = "section-line", src = 0, x = 0, y = 0, w = 1, h = 1},
 		
 		{id = "gauge-r1", src = 3, x = 0, y = 0, w = 5, h = 17},
 		{id = "gauge-b1", src = 3, x = 5, y = 0, w = 5, h = 17},
@@ -225,41 +222,11 @@ local function main()
 		{id = "judge-late", src = 13, x = 50, y = 0, w = 50, h = 20}
 	}
 
-	-- insert note image resource
-	-- source position/size info
-	local nx = {b = 96, w = 61, s = 0}
-	local ny = {
-		note = 4, mine = 33,
-		lns = 76, lne = 59, lnb = 113, lna = 102,
-		hcs = 76, hce = 59, hcb = 113, hca = 102, hcd = 113, hcr = 102
-	}
-	local nw = {b = 26, w = 34, s = 60}
-	local nh = {
-		note = 16, mine = 8,
-		lns = 16, lne = 16, lnb = 1, lna = 1,
-		hcs = 16, hce = 16, hcb = 1, hca = 1, hcd = 1, hcr = 1
-	}
+	local notes_main = require("notes")
+	local notes = notes_main("single")
+	append_all(skin.image, notes.src)
 
-	-- generate resource object
-	local function note_resource(type, color)
-		return {
-			id=type.."-"..color,
-			src="notes",
-			x=nx[color],
-			y=ny[type],
-			w=nw[color],
-			h=nh[type]
-		}
-	end
-
-	local note_types = {"note", "lns", "lne", "lnb", "lna", "hcs", "hce", "hcb", "hca", "hcd", "hcr", "mine"}
-
-	-- insert reseource of every types and colors
-	for i = 1, 12 do
-		for j = 1, 3 do
-			table.insert(skin.image, note_resource(note_types[i], note_colors[j]))
-		end
-	end
+	skin.note = notes.dst
 
 	local function bomb_image(index, prefix, timer_func)
 		local name = index
@@ -446,51 +413,7 @@ local function main()
 		{id = "graph-target", src = "ec_graph", x = 0, y = 998, w = 896, h = 449, divx=896, cycle=10000,  type = 114},
 		{id = "load-progress", src = 0, x = 0, y = 0, w = 8, h = 8, angle = 0, type = 102}
 	}
-	local function notes_list(type)
-		local list = {}
-		for i = 1, 8 do
-			list[i] = type.."-"..note_colors[get_key_wbs(i) + 1]
-		end
-		return list
-	end
 
-	skin.note = {
-		id = "notes",
-		note = notes_list("note"),
-		lnend = notes_list("lne"),
-		lnstart = notes_list("lns"),
-		lnbody = notes_list("lnb"),
-		lnactive = notes_list("lna"),
-		hcnend = notes_list("hce"),
-		hcnstart = notes_list("hcs"),
-		hcnbody = notes_list("hcb"),
-		hcnactive = notes_list("hca"),
-		hcndamage = notes_list("hcd"),
-		hcnreactive = notes_list("hcr"),
-		mine = notes_list("mine"),
-		hidden = {},
-		processed = {},
-		group = {
-			{id = "section-line", offset = 3, dst = { -- 小節線
-				{x = geometry.lanes_x, y = judge_line_y, w = geometry.lanes_w, h = 1, r = 128, g = 128, b = 128}
-			}}
-		},
-		time = {
-			{id = "section-line", offset = 3, dst = {
-				{x = geometry.lanes_x, y = judge_line_y, w = geometry.lanes_w, h = 2, r = 64, g = 192, b = 192}
-			}}
-		},
-		bpm = {
-			{id = "section-line", offset = 3, dst = {
-				{x = geometry.lanes_x, y = judge_line_y, w = geometry.lanes_w, h = 2, r = 0, g = 192, b = 0}
-			}}
-		},
-		stop = {
-			{id = "section-line", offset = 3, dst = {
-				{x = geometry.lanes_x, y = judge_line_y, w = geometry.lanes_w, h = 2, r = 192, g = 192, b = 0}
-			}}
-		}
-	}
 	skin.note.dst = {}
 	for i = 1, 8 do
 		skin.note.dst[i] = {
