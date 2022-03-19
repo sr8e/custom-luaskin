@@ -154,146 +154,7 @@ local function main()
 		skin[k] = v
 	end
 
-	local geometry = {}
-
-	local resolution = {x = 1920, y = 1080}
-	local judge_line_y = 251
-	local judge_y = 450
-	local notes_area_h = 830
-
-	local judge_src_h = 56
-	local judgef_src_w = 153
-	local judgen_src_w = 37
-	local judge_h = 84
-	local judgef_w = 230
-	local judgen_w = 56
-
-	geometry.lanes_w = 639 -- default: 390 
-	geometry.lane_w_width = 81 --default: 50
-	geometry.lane_b_width = 61 --default: 40
-	geometry.lane_s_width = 134 -- default: 70
-	geometry.note_w_width = 75
-	geometry.note_b_width = 57
-	geometry.note_s_width = 132
-	
-
-	if is_left_side() then
-		geometry.lanes_x = 80 -- 画面左端からの位置, default: 20
-		geometry.title_align = 0
-		geometry.judge_x = 290 --判定表示位置, default: 110
-		geometry.judgedetail_x = 300
-		geometry.judgedetail_y = 540
-		geometry.judgecount_x = 756
-		geometry.judgecount_y = 100
-		geometry.ready_x = 225
-		geometry.title_x = 1200
-		geometry.gauge_x = 57
-		geometry.gauge_w = 677
-		geometry.gaugevalue_x = 570
-		geometry.bga_x = 1170 -- default: 440
-		geometry.bga_y = 250
-		geometry.bga_w = 750 -- default: 800
-		geometry.bga_h = 563 -- default: 650
-		geometry.judgegraph_x = 1200
-		geometry.judgegraph_y = 100
-		geometry.judgegraph_w = 450
-		geometry.judgegraph_h = 100
-		geometry.timing_x = 1200
-		geometry.timing_y = 50
-		geometry.timing_w = 450
-		geometry.timing_h = 50
-		geometry.progress_x = 36
-		geometry.progress_y = 275
-		geometry.progress_w = 14 --default: 16
-		geometry.progress_h = 787 --default: 540 
-	end
-	if is_right_side() then
-		geometry.lanes_x = 870
-		geometry.title_align = 2
-		geometry.judge_x = 965
-		geometry.judgedetail_x = 1050
-		geometry.judgedetail_y = 290
-		geometry.judgecount_x = 756
-		geometry.judgecount_y = 100
-		geometry.ready_x = 890
-		geometry.title_x = 840
-		geometry.gauge_x = 1260
-		geometry.gauge_w = -390
-		geometry.gaugevalue_x = 870
-		geometry.bga_x = 40
-		geometry.bga_y = 50
-		geometry.bga_w = 800
-		geometry.bga_h = 650
-		geometry.judgegraph_x = 90
-		geometry.judgegraph_y = 100
-		geometry.judgegraph_w = 450
-		geometry.judgegraph_h = 100
-		geometry.timing_x = 90
-		geometry.timing_y = 50
-		geometry.timing_w = 450
-		geometry.timing_h = 50
-		geometry.progress_x = 1262
-		geometry.progress_y = 140
-		geometry.progress_w = 16
-		geometry.progress_h = 540
-	end
-	if is_score_graph_enabled() then
-    	if is_left_side() then
-    		geometry.graph_x = 810 --geometry.lanes_x + geometry.lanes_w
-    		--geometry.title_x = geometry.title_x + 90
-    		geometry.bga_x = geometry.bga_x + 90
-    		geometry.bga_w = geometry.bga_w - 90
-    		--geometry.judgecount_x = geometry.judgecount_x + 90
-    	else
-    		geometry.graph_x = geometry.lanes_x - 90
-    		geometry.title_x = geometry.title_x - 90
-    		geometry.bga_w = geometry.bga_w - 90
-    		geometry.judgecount_x = geometry.judgecount_x - 90
-    	end
-		geometry.graph_y = 265
-		geometry.graph_w = 350
-		geometry.graph_h = 666
-	else
-		geometry.graph_x = 0
-		geometry.graph_y = 0
-		geometry.graph_w = 0
-		geometry.graph_h = 0
-	end
-	do
-		geometry.notes_x = {}
-		geometry.notes_w = {}
-		geometry.lanes_center_x = {}
-		local x = geometry.lanes_x
-		if is_left_scratch() then
-			geometry.lanebg_x = geometry.lanes_x
-			geometry.lanebg_w = geometry.lanes_w
-			x = x + geometry.lane_s_width;
-			geometry.notes_x[8] = geometry.lanes_x
-			geometry.notes_w[8] = geometry.note_s_width
-		end
-		local adjust_w = (geometry.note_w_width - geometry.lane_w_width) / 2
-		local adjust_b = (geometry.note_b_width - geometry.lane_b_width) / 2
-		for i = 1, 7 do
-			if get_key_wbs(i) == 0 then
-				geometry.notes_x[i] = x - adjust_w
-				geometry.notes_w[i] = geometry.note_w_width
-				x = x + geometry.lane_w_width
-			else
-				geometry.notes_x[i] = x - adjust_b
-				geometry.notes_w[i] = geometry.note_b_width
-				x = x + geometry.lane_b_width
-			end
-		end
-		if is_right_scratch() then
-			geometry.lanebg_x = geometry.lanes_x + geometry.lanes_w
-			geometry.lanebg_w = -geometry.lanes_w
-			geometry.notes_x[8] = x
-			geometry.notes_w[8] = geometry.lane_s_width
-		end
-		for i = 1, 8 do
-			geometry.lanes_center_x[i] = geometry.notes_x[i] + geometry.notes_w[i] / 2
-		end
-	end
+	geometry = require("play7geometry")
 
 	skin.source = {
 		{id = 0, path = "../system.png"},
@@ -571,13 +432,13 @@ local function main()
 	skin.slider = {
 		{id = "musicprogress", src = 0, x = 0, y = 289, w = 14, h = 20, angle = 2, range = geometry.progress_h - 20,type = 6},
 		{id = "musicprogress-fin", src = 0, x = 15, y = 289, w = 14, h = 20, angle = 2, range = geometry.progress_h - 20,type = 6},
-		{id = "lanecover", src = 12, x = 0, y = 0, w = 390, h = 580, angle = 2, range = notes_area_h, type = 4}
+		{id = "lanecover", src = 12, x = 0, y = 0, w = 390, h = 580, angle = 2, range = geometry.notes_area_h, type = 4}
 	}
 	skin.hiddenCover = {
-		{id = "hidden-cover", src = 12, x = 0, y = 0, w = 390, h = 580, disapearLine = judge_line_y, isDisapearLineLinkLift = true}
+		{id = "hidden-cover", src = 12, x = 0, y = 0, w = 390, h = 580, disapearLine = geometry.judge_line_y, isDisapearLineLinkLift = true}
 	}
 	skin.liftCover = {
-		{id = "lift-cover", src = 12, x = 0, y = 0, w = 390, h = 655, disapearLine = judge_line_y}
+		{id = "lift-cover", src = 12, x = 0, y = 0, w = 390, h = 655, disapearLine = geometry.judge_line_y}
 	}
 	skin.graph = {
 		{id = "graph-now", src = "ec_graph", x = 0, y = 0, w = 896, h = 449, divx=896, cycle=10000, type = 110},
@@ -634,9 +495,9 @@ local function main()
 	for i = 1, 8 do
 		skin.note.dst[i] = {
 			x = geometry.notes_x[i],
-			y = 251,  --判定位置
+			y = geometry.judge_line_y,  --判定位置
 			w = geometry.notes_w[i],
-			h = 830  --ノーツ出現領域高さ
+			h = geometry.notes_area_h  --ノーツ出現領域高さ
 		}
 	end
 	skin.gauge = {
@@ -714,7 +575,7 @@ local function main()
 	}
 	skin.destination = {
 		{id = "background", dst = {
-			{x = 0, y = 0, w = resolution.x, h = resolution.y}
+			{x = 0, y = 0, w = geometry.resolution.x, h = geometry.resolution.y}
 		}},--[[
 		{id = 1, dst = {
 			{x = 0, y = 0, w = 1280, h = 720}
@@ -784,12 +645,12 @@ local function main()
 			loop = 100,
 			offsets = {3, 40},
 			dst = {
-				{ time = 0, x = geometry.notes_x[i] + geometry.notes_w[i] / 4, y = judge_line_y, w = geometry.notes_w[i] / 2, h = notes_area_h },
+				{ time = 0, x = geometry.notes_x[i] + geometry.notes_w[i] / 4, y = geometry.judge_line_y, w = geometry.notes_w[i] / 2, h = geometry.notes_area_h },
 				{ time = 100, x = geometry.notes_x[i], w = geometry.notes_w[i] }
 			}
 		})
 	end
-	table.insert(skin.destination, {id = 15, offset = 3, dst = { {x = geometry.lanes_x, y = judge_line_y, w = geometry.lanes_w, h = 6} }}) --判定線
+	table.insert(skin.destination, {id = 15, offset = 3, dst = { {x = geometry.lanes_x, y = geometry.judge_line_y, w = geometry.lanes_w, h = 6} }}) --判定線
 	table.insert(skin.destination, {id = "notes", offset=30})
 	for i = 1, 8 do
 		table.insert(skin.destination, {
@@ -847,7 +708,7 @@ local function main()
 		}},
 		{
 			id = "lift-cover", dst = {
-				{x = geometry.lanes_x, y = judge_line_y - 1073, w = geometry.lanes_w, h = 1073}
+				{x = geometry.lanes_x, y = geometry.judge_line_y - 1073, w = geometry.lanes_w, h = 1073}
 			}
 		},
 		{id = "gauge", dst = {
@@ -946,16 +807,16 @@ local function main()
 	append_all(skin.destination, judge_count_destinations("judge-count-", geometry.judgecount_x, geometry.judgecount_y, {906}, 42))
 	append_all(skin.destination, {
 		{id = "lanecover-value", offset = 4, op = {270},dst = {
-			{time = 0, x = geometry.lanes_x + geometry.lanes_w / 3 - 24, y = resolution.y - 27, w = 18, h = 27}
+			{time = 0, x = geometry.lanes_x + geometry.lanes_w / 3 - 24, y = geometry.resolution.y - 27, w = 18, h = 27}
 		}},
 		{id = "lanecover-duration", offset = 4, op = {270},dst = {
-			{time = 0, x = geometry.lanes_x + geometry.lanes_w * 2 / 3 - 24, y = resolution.y - 27, w = 18, h = 27}
+			{time = 0, x = geometry.lanes_x + geometry.lanes_w * 2 / 3 - 24, y = geometry.resolution.y - 27, w = 18, h = 27}
 		}},
 		{id = "liftcover-value", offset = 3, op = {270},dst = {
-			{time = 0, x = geometry.lanes_x + geometry.lanes_w / 3 - 24, y = judge_line_y + 6 , w = 18, h = 27}
+			{time = 0, x = geometry.lanes_x + geometry.lanes_w / 3 - 24, y = geometry.judge_line_y + 6 , w = 18, h = 27}
 		}},
 		{id = "liftcover-duration", offset = 3, op = {270},dst = {
-			{time = 0, x = geometry.lanes_x + geometry.lanes_w * 2 / 3 - 24, y = judge_line_y + 6, w = 18 , h = 27}
+			{time = 0, x = geometry.lanes_x + geometry.lanes_w * 2 / 3 - 24, y = geometry.judge_line_y + 6, w = 18 , h = 27}
 		}},
 		{id = "load-progress", loop = 0, op = {80}, dst = {
 			{time = 0, x = geometry.lanes_x, y = 440, w = geometry.lanes_w, h = 4},
@@ -972,20 +833,20 @@ local function main()
 		}},
 
 		{id = "close2", loop = 700, timer = 3, dst = {
-			{time = 0, x = 0, y = - resolution.y / 2, w = resolution.x, h = resolution.y / 2},
+			{time = 0, x = 0, y = - geometry.resolution.y / 2, w = geometry.resolution.x, h = geometry.resolution.y / 2},
 			{time = 500, y = 0},
 			{time = 600, y = -40},
 			{time = 700, y = 0}
 		}},
 		{id = "close1", loop = 700, timer = 3, dst = { -- ハード落ちタイマー
-			{time = 0, x = 0, y = resolution.y, w = resolution.x, h = resolution.y / 2},
-			{time = 500, y = resolution.y / 2},
-			{time = 600, y = resolution.y / 2 + 40},
-			{time = 700, y = resolution.y / 2}
+			{time = 0, x = 0, y = geometry.resolution.y, w = geometry.resolution.x, h = geometry.resolution.y / 2},
+			{time = 500, y = geometry.resolution.y / 2},
+			{time = 600, y = geometry.resolution.y / 2 + 40},
+			{time = 700, y = geometry.resolution.y / 2}
 		}},
 
 		{id = 7, loop = 500, timer = 2, dst = { -- 曲終了タイマー
-			{time = 0, x = 0, y = 0, w = resolution.x, h = resolution.y, a = 0},
+			{time = 0, x = 0, y = 0, w = geometry.resolution.x, h = geometry.resolution.y, a = 0},
 			{time = 500, a = 255}
 		}}
 	})
