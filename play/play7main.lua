@@ -1,6 +1,81 @@
-local function append_all(list, list1)
+-- general table manipulation
+function append_all(list, list1)
 	for i, v in ipairs(list1) do
 		table.insert(list, v)
+	end
+end
+
+-- play options
+function is_left_side()
+	return skin_config.option["Play Side"] == 920
+end
+
+function is_right_side()
+	return skin_config.option["Play Side"] == 921
+end
+
+function is_left_scratch()
+	return skin_config.option["Scratch Side"] == 922
+end
+
+function is_right_scratch()
+	return skin_config.option["Scratch Side"] == 923
+end
+
+function is_score_graph_enabled()
+	return skin_config.option["Score Graph"] == 901
+end
+
+function is_judge_count_enabled()
+	return skin_config.option["Judge Count"] == 906
+end
+
+function is_judge_detail_early_late()
+	return skin_config.option["Judge Detail"] == 911
+end
+
+function is_judge_detail_ms()
+	return skin_config.option["Judge Detail"] == 912
+end
+
+-- timers
+function timer_key_bomb(index)
+	if index == 8 then
+		return 50
+	else
+		return 50 + index
+	end
+end
+
+function timer_key_hold(index)
+	if index == 8 then
+		return 70
+	else
+		return 70 + index
+	end
+end
+
+function timer_key_on(index)
+	if index == 8 then
+		return 100
+	else
+		return 100 + index
+	end
+end
+
+function timer_key_off(index)
+	if index == 8 then
+		return 120
+	else
+		return 120 + index
+	end
+end
+
+function value_judge(index)
+	if index == 8 then
+		return 500
+	else
+		return 500 + index
 	end
 end
 
@@ -27,70 +102,6 @@ local property = {
 		{name = "+-ms", op = 912}
 	}}
 }
-local function is_left_side()
-	return skin_config.option["Play Side"] == 920
-end
-local function is_right_side()
-	return skin_config.option["Play Side"] == 921
-end
-local function is_left_scratch()
-	return skin_config.option["Scratch Side"] == 922
-end
-local function is_right_scratch()
-	return skin_config.option["Scratch Side"] == 923
-end
-local function is_score_graph_enabled()
-	return skin_config.option["Score Graph"] == 901
-end
-local function is_judge_count_enabled()
-	return skin_config.option["Judge Count"] == 906
-end
-local function is_judge_detail_early_late()
-	return skin_config.option["Judge Detail"] == 911
-end
-local function is_judge_detail_ms()
-	return skin_config.option["Judge Detail"] == 912
-end
-
-local function timer_key_bomb(index)
-	if index == 8 then
-		return 50
-	else
-		return 50 + index
-	end
-end
-
-local function timer_key_hold(index)
-	if index == 8 then
-		return 70
-	else
-		return 70 + index
-	end
-end
-
-local function timer_key_on(index)
-	if index == 8 then
-		return 100
-	else
-		return 100 + index
-	end
-end
-
-local function timer_key_off(index)
-	if index == 8 then
-		return 120
-	else
-		return 120 + index
-	end
-end
-
-local function value_judge(index)
-	if index == 8 then
-		return 500
-	else
-		return 500 + index
-	end
-end
 
 local filepath = {
 	{name = "Background", path = "background/*.png"},
@@ -126,15 +137,15 @@ local header = {
 }
 
 
-local note_colors = {"w", "b", "s"}
-local key_wbs = { 0, 1, 0, 1, 0, 1, 0, 2 }
-local function get_key_wbs(i)
+note_colors = {"w", "b", "s"}
+key_wbs = { 0, 1, 0, 1, 0, 1, 0, 2 }
+function get_key_wbs(i)
 	return key_wbs[(i - 1) % 8 + 1]
 end
 
-local judges = { "pg", "gr", "gd", "bd", "pr", "ms" }
+judges = {"pg", "gr", "gd", "bd", "pr", "ms"}
 
-local keybeam_order = { 1, 2, 3, 4, 5, 6, 7, 8}
+keybeam_order = {1, 2, 3, 4, 5, 6, 7, 8}
 
 local function main()
 
