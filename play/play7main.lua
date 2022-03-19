@@ -123,8 +123,6 @@ local filepath = {
 	{name = "Background", path = "background/*.png"},
 	{name = "Note", path = "notes/*.png"},
 	{name = "Bomb", path = "bomb/*.png"},
-	{name = "Gauge", path = "gauge/*.png"},
-	{name = "Judge", path = "judge/*.png"},
 	{name = "Laser", path = "laser/*.png"},
 	{name = "Lanecover", path = "lanecover/*.png"},
 }
@@ -174,8 +172,7 @@ local function main()
 		{id = 0, path = "../system.png"},
 		{id = "bg", path = "resource_ec/MANIAC.png"},
 		{id = 2, path = "../playbg.png"},
-		{id = 3, path = "gauge/*.png"},
-		{id = 4, path = "judge/*.png"},
+		{id = "gauge", path = "resource_ec/gauge.png"},
 		{id = 5, path = "../number.png"},
 		{id = "keybeam", path = "laser/*.png"},
 		{id = "notes", path = "notes/*.png"},
@@ -208,21 +205,6 @@ local function main()
 		{id = 13, src = 0, x = 10, y = 10, w = 10, h = 251},
 		{id = 15, src = "judgeline", x = 0, y = 0, w = 6, h = 6},
 
-
-		
-		{id = "gauge-r1", src = 3, x = 0, y = 0, w = 5, h = 17},
-		{id = "gauge-b1", src = 3, x = 5, y = 0, w = 5, h = 17},
-		{id = "gauge-r2", src = 3, x = 10, y = 0, w = 5, h = 17},
-		{id = "gauge-b2", src = 3, x = 15, y = 0, w = 5, h = 17},
-		{id = "gauge-r3", src = 3, x = 0, y = 34, w = 5, h = 17},
-		{id = "gauge-b3", src = 3, x = 5, y = 34, w = 5, h = 17},
-		{id = "gauge-y1", src = 3, x = 0, y = 17, w = 5, h = 17},
-		{id = "gauge-p1", src = 3, x = 5, y = 17, w = 5, h = 17},
-		{id = "gauge-y2", src = 3, x = 10, y = 17, w = 5, h = 17},
-		{id = "gauge-p2", src = 3, x = 15, y = 17, w = 5, h = 17},
-		{id = "gauge-y3", src = 3, x = 10, y = 34, w = 5, h = 17},
-		{id = "gauge-p3", src = 3, x = 15, y = 34, w = 5, h = 17},
-
 		{id = "judge-early", src = 13, x = 0, y = 0, w = 50, h = 20},
 		{id = "judge-late", src = 13, x = 50, y = 0, w = 50, h = 20}
 	}
@@ -250,6 +232,13 @@ local function main()
 	append_all(skin.image, judge.src)
 
 	skin.judge = judge.dst
+
+
+	--gauge
+	local gauge = require("gauge")
+	append_all(skin.image, gauge.src)
+	skin.gauge = gauge.set
+
 
 	skin.text = {
 		{id = "song-title", font = 0, size = 24, align = geometry.title_align, ref = 12}
@@ -281,15 +270,6 @@ local function main()
 			h = geometry.notes_area_h  --ノーツ出現領域高さ
 		}
 	end
-	skin.gauge = {
-		id = "gauge",
-		nodes = {"gauge-r1","gauge-p1","gauge-r2","gauge-p2","gauge-r3","gauge-p3"
-			,"gauge-r1","gauge-p1","gauge-r2","gauge-p2","gauge-r3","gauge-p3"
-			,"gauge-r1","gauge-b1","gauge-r2","gauge-b2","gauge-r3","gauge-b3"
-			,"gauge-r1","gauge-p1","gauge-r2","gauge-p2","gauge-r3","gauge-p3"
-			,"gauge-y1","gauge-p1","gauge-y2","gauge-p2","gauge-y3","gauge-p3"
-			,"gauge-p1","gauge-p1","gauge-p2","gauge-p2","gauge-p3","gauge-p3"}
-	}
 
 	skin.bga = {
 		id = "bga"
@@ -348,12 +328,10 @@ local function main()
 				{x = geometry.lanes_x, y = geometry.judge_line_y - 1073, w = geometry.lanes_w, h = 1073}
 			}
 		},
-		{id = "gauge", dst = {
-			{time = 0, x = geometry.gauge_x, y = 96, w = geometry.gauge_w, h = 51}
-		}},
-
 	})
 	append_all(skin.destination, bb.dst)
+	table.insert(skin.destination, gauge.dst)
+
 	append_all(skin.destination, {
 		{id = "bga", offset = 43, dst = {
 			{time = 0, x = geometry.bga_x, y = geometry.bga_y, w = geometry.bga_w, h = geometry.bga_h}
