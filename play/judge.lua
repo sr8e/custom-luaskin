@@ -5,7 +5,7 @@ local function main(play_type)
         src = {h = 56, w = 153},
         dst = {h = 84, w = 230},
     }
-    local pos = {0, 3, 4, 5, 6, 7}
+    local pos = {0, 3, 4, 5, 6, 6}
 
     local num_w = 56
 
