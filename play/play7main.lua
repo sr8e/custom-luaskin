@@ -261,15 +261,6 @@ local function main()
 		{id = "load-progress", src = 0, x = 0, y = 0, w = 8, h = 8, angle = 0, type = 102}
 	}
 
-	skin.note.dst = {}
-	for i = 1, 8 do
-		skin.note.dst[i] = {
-			x = geometry.notes_x[i],
-			y = geometry.judge_line_y,  --判定位置
-			w = geometry.notes_w[i],
-			h = geometry.notes_area_h  --ノーツ出現領域高さ
-		}
-	end
 
 	skin.bga = {
 		id = "bga"
