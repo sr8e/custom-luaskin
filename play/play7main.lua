@@ -223,7 +223,8 @@ local function main()
 
 
 	-- values
-	local values = require("values")
+	local values_main = require("values")
+	local values = values_main("single")
 	skin.value = values.src
 
 	-- judge
