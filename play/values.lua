@@ -1,3 +1,5 @@
+local function main(play_type)
+
 local num_src={
     n = {
         x = 0, w = 12, h = 18,
@@ -155,27 +157,43 @@ local function judge_count_destinations(pos_x, pos_y, ops, offset)
 end
 
 local destination = {
-    dst("minbpm", 345, 10, "p"),
-    dst("nowbpm", 480, 10, "p"),
-    dst("maxbpm", 614, 10, "p"),
-    dst("timeleft-m", 300, 160, "n", 1.5),
-    dst("timeleft-s", 350, 160, "n", 1.5),
-    dst("hispeed", 625, 60, "n", 1.5),
-    dst("hispeed-d", 670, 60, "n", 1.5),
-    dst("currentscore", 1000, 1000, "p", 1),
-    dst("targetscore", 1000, 965, "p", 1),
-    dst("totalnotes", 980, 120, "n", 1.5),
-    dst("gaugevalue", geometry.gaugevalue_x, 180, "p", 1.6, 1.5),
-    dst("scorerate", 180, 206, "n", 1.5),
-    dst("scorerate-d", 244, 206, "n", 1.5),
-    dst("lanecover-value", geometry.lanes_x + geometry.lanes_w / 3, geometry.resolution.y - 27, "n", 1.5, 1, {270}, 4),
-    dst("liftcover-value", geometry.lanes_x + geometry.lanes_w / 3, geometry.judge_line_y + 6, "n", 1.5, 1, {270}, 3),
-    dst("lanecover-duration", geometry.lanes_x + geometry.lanes_w * 2 / 3, geometry.resolution.y - 27, "n", 1.5, 1, {270}, 4),
-    dst("lanecover-duration", geometry.lanes_x + geometry.lanes_w * 2 / 3, geometry.judge_line_y + 6, "n", 1.5, 1, {270}, 3),
+    dst("minbpm", geometry.minbpm_x, geometry.bpm_y, "p"),
+    dst("nowbpm", geometry.nowbpm_x, geometry.bpm_y, "p"),
+    dst("maxbpm", geometry.maxbpm_x, geometry.bpm_y, "p"),
+    dst("timeleft-m", geometry.timeleft_m_x, geometry.timeleft_y, "n", 1.5),
+    dst("timeleft-s", geometry.timeleft_s_x, geometry.timeleft_y, "n", 1.5),
+    dst("hispeed",  geometry.hispeed_x, geometry.hispeed_y, "n", 1.5),
+    dst("hispeed-d", geometry.hispeed_d_x, geometry.hispeed_y, "n", 1.5),
+    dst("currentscore", geometry.currentscore_x, geometry.currentscore_y, "p", 1),
+    dst("targetscore", geometry.targetscore_x, geometry.targetscore_y, "p", 1),
+    dst("totalnotes", geometry.totalnotes_x, geometry.totalnotes_y, "n", 1.5),
+    dst("gaugevalue", geometry.gaugevalue_x, geometry.gaugevalue_y, "p", 1.6, 1.5),
+    dst("scorerate", geometry.scorerate_x, geometry.scorerate_y, "n", 1.5),
+    dst("scorerate-d", geometry.scorerate_d_x, geometry.scorerate_y, "n", 1.5),
 }
+
+local function set_lanecover_dst(x)
+    append_all(destination, {
+        dst("lanecover-value", x + geometry.lanes_w / 3, geometry.resolution.y - 27, "n", 1.5, 1, {270}, 4),
+        dst("liftcover-value", x + geometry.lanes_w / 3, geometry.judge_line_y + 6, "n", 1.5, 1, {270}, 3),
+        dst("lanecover-duration", x + geometry.lanes_w * 2 / 3, geometry.resolution.y - 27, "n", 1.5, 1, {270}, 4),
+        dst("lanecover-duration", x + geometry.lanes_w * 2 / 3, geometry.judge_line_y + 6, "n", 1.5, 1, {270}, 3),
+    })
+end
+
+if play_type == "single" then
+    set_lanecover_dst(geometry.lanes_x)
+else
+    set_lanecover_dst(geometry.lanes_x.left)
+    set_lanecover_dst(geometry.lanes_x.right)
+end
+
 append_all(destination, judge_count_destinations(geometry.judgecount_x, geometry.judgecount_y, {906}, 42))
 
 return {
     src = values,
     dst = destination
 }
+end
+
+return main

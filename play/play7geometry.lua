@@ -27,10 +27,13 @@ if is_left_side() then
 
 	geometry.ready_x = 225
 	geometry.title_x = 1200
+	geometry.title_y = 1034
 	-- gauge
 	geometry.gauge_x = 57
+	geometry.gauge_y = 96
 	geometry.gauge_w = 677
 	geometry.gaugevalue_x = 570
+	geometry.gaugevalue_y = 180
 	--bga
 	geometry.bga_x = 1170
 	geometry.bga_y = 250
@@ -51,6 +54,32 @@ if is_left_side() then
 	geometry.progress_y = 275
 	geometry.progress_w = 14
 	geometry.progress_h = 787
+
+	geometry.bpm_y = 10
+	geometry.minbpm_x = 345
+	geometry.nowbpm_x = 480
+	geometry.maxbpm_x = 615
+
+	geometry.timeleft_y = 160
+	geometry.timeleft_m_x = 300
+	geometry.timeleft_s_x = 350
+
+	geometry.scorerate_y = 206
+	geometry.scorerate_x = 180
+	geometry.scorerate_d_x = 244
+
+	geometry.hispeed_y = 60
+	geometry.hispeed_x = 625
+	geometry.hispeed_d_x = 670
+
+	geometry.currentscore_x = 1000
+	geometry.currentscore_y = 1000
+	geometry.targetscore_x = 1000
+	geometry.targetscore_y = 965
+
+	geometry.totalnotes_x = 980
+	geometry.totalnotes_y = 120
+
 elseif is_right_side() then
 	-- TODO right side geometry
 	geometry.lanes_x = 870
@@ -96,9 +125,9 @@ if is_score_graph_enabled() then
     	geometry.bga_w = geometry.bga_w - 90
     	geometry.judgecount_x = geometry.judgecount_x - 90
     end
-	geometry.graph_y = 265
+	geometry.graph_y = 264
 	geometry.graph_w = 350
-	geometry.graph_h = 666
+	geometry.graph_h = 665
 else
 	geometry.graph_x = 0
 	geometry.graph_y = 0

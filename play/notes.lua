@@ -51,13 +51,13 @@ local function main(play_type)
         return list
     end
 
-    local function section(height, r, g, b)
+    local function sect_obj(height, x, r, g, b)
         return {
             id = "section-line",
             offset = 3,
             dst = {
                 {
-                    x = geometry.lanes_x,
+                    x = x,
                     y = geometry.judge_line_y,
                     w = geometry.lanes_w,
                     h = 1,
@@ -65,6 +65,17 @@ local function main(play_type)
                 }
             }
         }
+    end
+
+    local function sections(height, r, g, b)
+        if play_type == "single" then
+            return {sect_obj(height, geometry.lanes_x, r, g, b)}
+        else
+            return {
+                sect_obj(height, geometry.lanes_x.left, r, g, b),
+                sect_obj(height, geometry.lanes_x.right, r, g, b)
+            }
+        end
     end
 
     dst = {
@@ -83,10 +94,10 @@ local function main(play_type)
         mine = notes_list("mine"),
         hidden = {},
         processed = {},
-        group = {section(1, 128, 128, 128)},
-        time = {section(2, 64, 192, 192)},
-        bpm = {section(2, 0, 192, 0)},
-        stop = {section(2, 192, 192, 0)}
+        group = sections(1, 128, 128, 128),
+        time = sections(2, 64, 192, 192),
+        bpm = sections(2, 0, 192, 0),
+        stop = sections(2, 192, 192, 0)
     }
 
     dst.dst = {}

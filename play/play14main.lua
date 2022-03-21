@@ -6,22 +6,6 @@ function append_all(list, list1)
 end
 
 -- play options
-function is_left_side()
-	return skin_config.option["Play Side"] == 920
-end
-
-function is_right_side()
-	return skin_config.option["Play Side"] == 921
-end
-
-function is_left_scratch()
-	return skin_config.option["Scratch Side"] == 922
-end
-
-function is_right_scratch()
-	return skin_config.option["Scratch Side"] == 923
-end
-
 function is_score_graph_enabled()
 	return skin_config.option["Score Graph"] == 901
 end
@@ -32,6 +16,10 @@ end
 
 function is_judge_detail_early_late()
 	return skin_config.option["Judge Detail"] == 911
+end
+
+function is_bga_enabled()
+	return skin_config.option["BGA"] == 914
 end
 
 
@@ -97,14 +85,6 @@ function value_judge(index)
 end
 
 local property = {
-	{name = "Play Side", item = {
-		{name = "1P", op = 920},
-		{name = "2P", op = 921}
-	}},
-	{name = "Scratch Side", item = {
-		{name = "Left", op = 922},
-		{name = "Right", op = 923}
-	}},
 	{name = "Score Graph", item = {
 		{name = "Off", op = 900},
 		{name = "On", op = 901}
@@ -116,11 +96,16 @@ local property = {
 	{name = "Judge Detail", item = {
 		{name = "Off", op = 910},
 		{name = "EARLY/LATE", op = 911}
-	}}
+	}},
+	{
+		name = "BGA", item = {
+			{name = "off", op = 913},
+			{name = "on", op = 914},
+		}
+	},
 }
 
 local filepath = {
-	{name = "Background", path = "background/*.png"},
 	{name = "Note", path = "notes/*.png"},
 	{name = "Bomb", path = "bomb/*.png"},
 	{name = "Laser", path = "laser/*.png"},
@@ -136,8 +121,8 @@ local offset = {
 }
 
 local header = {
-	type = 0,
-	name = "sr/custom",
+	type = 2,
+	name = "sr/custom14",
 	w = 1920,
 	h = 1080,
 	playstart = 1000,
@@ -166,18 +151,15 @@ local function main()
 		skin[k] = v
 	end
 
-	geometry = require("play7geometry")
+	geometry = require("play14geometry")
 
 	skin.source = {
 		{id = 0, path = "../system.png"},
-		{id = "bg", path = "resource_ec/MANIAC.png"},
-		{id = 2, path = "../playbg.png"},
+		{id = "bg", path = "resource_ec/Maniacdp.png"},
 		{id = "gauge", path = "resource_ec/gauge.png"},
-		{id = 5, path = "../number.png"},
 		{id = "keybeam", path = "laser/*.png"},
 		{id = "notes", path = "notes/*.png"},
 		{id = 8, path = "../close.png"},
-		{id = 9, path = "../scoregraph.png"},
 		{id = "bomb", path = "bomb/*.png"},
 		{id = 11, path = "../ready.png"},
 		{id = 12, path = "lanecover/*.png"},
@@ -196,7 +178,6 @@ local function main()
 
 	skin.image = {
 		{id = "background", src = "bg", x = 0, y = 0, w = 1280, h = 720},
-		{id = 1, src = 2, x = 0, y = 0, w = 1280, h = 720},
 		{id = "ready", src = 11, x = 0, y = 0, w = 216, h = 40},
 		{id = 7, src = 0, x = 0, y = 0, w = 8, h = 8},
 		{id = "close1", src = 8, x = 0, y = 500, w = 640, h = 240},
@@ -210,26 +191,26 @@ local function main()
 	}
 
 	local notes_main = require("notes")
-	local notes = notes_main("single")
+	local notes = notes_main("double")
 	append_all(skin.image, notes.src)
 
 	skin.note = notes.dst
 
 
 	local bb_main = require("bomb_beam")
-	local bb = bb_main("single")
+	local bb = bb_main("double")
 	append_all(skin.image, bb.src)
 	skin.imageset = bb.set
 
 
 	-- values
 	local values_main = require("values")
-	local values = values_main("single")
+	local values = values_main("double")
 	skin.value = values.src
 
 	-- judge
 	local judge_main = require("judge")
-	local judge = judge_main("single")
+	local judge = judge_main("double")
 	append_all(skin.image, judge.src)
 
 	skin.judge = judge.dst
@@ -278,46 +259,66 @@ local function main()
 	skin.destination = {
 		{id = "background", dst = {
 			{x = 0, y = 0, w = geometry.resolution.x, h = geometry.resolution.y}
-		}},--[[
-		{id = 1, dst = {
-			{x = 0, y = 0, w = 1280, h = 720}
 		}},
-		]]
-		
 		{id = 13, dst = {
 			{x = geometry.progress_x + 2, y = geometry.progress_y, w = geometry.progress_w - 4, h = geometry.progress_h}
 		}},
 
 		{id = "lane-bg", loop = 1000, offset = 44, dst = {
-			{time = 0, x = geometry.lanebg_x, y = 251, w = geometry.lanebg_w, h = 0, a = 0},
-			{time = 1000, h = 828, a = 255}
+			{time = 0, x = geometry.lanebg_x.left, y = geometry.judge_line_y, w = geometry.lanebg_w, h = 0, a = 0},
+			{time = 1000, h = geometry.notes_area_h, a = 255}
+		}},
+		{id = "lane-bg", loop = 1000, offset = 44, dst = {
+			{time = 0, x = geometry.lanebg_x.right, y = geometry.judge_line_y, w = -geometry.lanebg_w, h = 0, a = 0},
+			{time = 1000, h = geometry.notes_area_h, a = 255}
 		}},
 	}
 	append_all(skin.destination, values.dst)
 
-	table.insert(skin.destination, {id = 15, offset = 3, dst = { {x = geometry.lanes_x, y = geometry.judge_line_y, w = geometry.lanes_w, h = 6} }}) --判定線
+	table.insert(skin.destination, {id = 15, offset = 3, dst = { {x = geometry.lanes_x.left, y = geometry.judge_line_y, w = geometry.lanes_w, h = 6} }}) --判定線
+	table.insert(skin.destination, {id = 15, offset = 3, dst = { {x = geometry.lanes_x.right, y = geometry.judge_line_y, w = geometry.lanes_w, h = 6} }})
+
 	table.insert(skin.destination, {id = "notes", offset=30})
 
 	append_all(skin.destination, judge.ids)
 
 	append_all(skin.destination, {
 		{id = "judge-early", loop = -1, timer = 46 ,op = {911,1242},offsets = {3, 33}, dst = {
-			{time = 0, x = geometry.judgedetail_x, y = geometry.judgedetail_y, w = 50, h = 20},
+			{time = 0, x = geometry.judgedetail_x.left, y = geometry.judgedetail_y, w = 50, h = 20},
 			{time = 500}
 		}},
 		{id = "judge-late", loop = -1, timer = 46 ,op = {911,1243},offsets = {3, 33}, dst = {
-			{time = 0, x = geometry.judgedetail_x, y = geometry.judgedetail_y, w = 50, h = 20},
+			{time = 0, x = geometry.judgedetail_x.left, y = geometry.judgedetail_y, w = 50, h = 20},
+			{time = 500}
+		}},
+		{id = "judge-early", loop = -1, timer = 47 ,op = {911,1262},offsets = {3, 33}, dst = {
+			{time = 0, x = geometry.judgedetail_x.right, y = geometry.judgedetail_y, w = 50, h = 20},
+			{time = 500}
+		}},
+		{id = "judge-late", loop = -1, timer = 47 ,op = {911,1263},offsets = {3, 33}, dst = {
+			{time = 0, x = geometry.judgedetail_x.right, y = geometry.judgedetail_y, w = 50, h = 20},
 			{time = 500}
 		}},
 		{id = "hidden-cover", dst = {
-			{x = geometry.lanes_x, y = -440, w = geometry.lanes_w, h = 580}
+			{x = geometry.lanes_x.right, y = -440, w = geometry.lanes_w, h = 580}
+		}},
+		{id = "hidden-cover", dst = {
+			{x = geometry.lanes_x.left, y = -440, w = geometry.lanes_w, h = 580}
 		}},
 		{id = "lanecover", dst = {
-			{x = geometry.lanes_x, y = 1080, w = geometry.lanes_w, h = notes_area_h}
+			{x = geometry.lanes_x.right, y = geometry.resolution.y, w = geometry.lanes_w, h = geometry.notes_area_h}
+		}},
+		{id = "lanecover", dst = {
+			{x = geometry.lanes_x.left, y = geometry.resolution.y, w = geometry.lanes_w, h = geometry.notes_area_h}
 		}},
 		{
 			id = "lift-cover", dst = {
-				{x = geometry.lanes_x, y = geometry.judge_line_y - 1073, w = geometry.lanes_w, h = 1073}
+				{x = geometry.lanes_x.left, y = geometry.judge_line_y - 1073, w = geometry.lanes_w, h = 1073}
+			}
+		},
+		{
+			id = "lift-cover", dst = {
+				{x = geometry.lanes_x.right, y = geometry.judge_line_y - 1073, w = geometry.lanes_w, h = 1073}
 			}
 		},
 	})
@@ -358,15 +359,6 @@ local function main()
 		--	{x = geometry.graph_x, y = geometry.graph_y, w = geometry.graph_w, h = geometry.graph_h}
 		--}},
 
-		{id = 422, op = {901},dst = {
-			{x = 1012, y = 995, w = 28, h = 19}
-		}},
-		--{id = 423, op = {901},dst = {
-		--	{x = geometry.graph_x + 10, y = 160, w = 12, h = 18}
-		--}},
-		{id = 424, op = {901},dst = {
-			{x = 1012, y = 964, w = 28, h = 19}
-		}},
 		{id = "musicprogress", blend = 2, dst = {
 			{x = geometry.progress_x, y = geometry.progress_y + geometry.progress_h - 20, w = geometry.progress_w, h = 20}
 		}},
@@ -377,7 +369,7 @@ local function main()
 
 	append_all(skin.destination, {
 		{id = "load-progress", loop = 0, op = {80}, dst = {
-			{time = 0, x = geometry.lanes_x, y = 440, w = geometry.lanes_w, h = 4},
+			{time = 0, x = geometry.lanes_x.left, y = 440, w = geometry.lanes_x.right + geometry.lanes_w - geometry.lanes_x.left, h = 4},
 			{time = 500, a = 192, r = 0},
 			{time = 1000, a = 128, r = 255, g = 0},
 			{time = 1500, a = 192, g = 255, b = 0},
@@ -385,7 +377,12 @@ local function main()
 		}},
 
 		{id = "ready", loop = -1, timer = 40, dst = {
-			{time = 0, x = geometry.ready_x, y = 400, w = 350, h = 60, a = 0},
+			{time = 0, x = geometry.ready_x.left, y = 400, w = 350, h = 60, a = 0},
+			{time = 750, y = 450, a = 255},
+			{time = 1000}
+		}},
+		{id = "ready", loop = -1, timer = 40, dst = {
+			{time = 0, x = geometry.ready_x.right, y = 400, w = 350, h = 60, a = 0},
 			{time = 750, y = 450, a = 255},
 			{time = 1000}
 		}},

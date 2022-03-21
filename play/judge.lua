@@ -28,16 +28,23 @@ local function main(play_type)
         table.insert(src, obj)
     end
 
+    local function get_timer(side)
+        if play_type == "single" or side == "left" then
+            return 46
+        else
+            return 47
+        end
+    end
+
     local function judgef_dst(i, side)
-        -- TODO 14key-judge pos
-        dst_x = (side == "left") and geometry.judge_x or geometry.judge_x
+        dst_x = (play_type == "single") and geometry.judge_x or geometry.judge_x[side]
         if i > 4 then
             dst_x = dst_x + num_w / 2
         end
         return {
             id = "judgef-"..judges[i],
             loop = -1,
-            timer = 46,
+            timer = get_timer(side),
             offsets = {3, 32},
             dst = {
                 {
@@ -54,12 +61,12 @@ local function main(play_type)
         }
     end
 
-    local function judgen_dst(i)
+    local function judgen_dst(i, side)
         if i < 4 then
             return {
                 id = "combo-"..judges[i],
                 loop = -1,
-                timer = 46,
+                timer = get_timer(side),
                 offsets = {3, 32},
                 dst = {
                     {
@@ -84,11 +91,11 @@ local function main(play_type)
 
     for i = 1, 6 do
         table.insert(dst_left.images, judgef_dst(i, "left"))
-        table.insert(dst_left.numbers, judgen_dst(i))
+        table.insert(dst_left.numbers, judgen_dst(i, "left"))
 
         if play_type == "double" then
             table.insert(dst_right.images, judgef_dst(i, "right"))
-            table.insert(dst_right.numbers, judgen_dst(i))
+            table.insert(dst_right.numbers, judgen_dst(i, "right"))
         end
     end
 
