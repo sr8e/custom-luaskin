@@ -43,6 +43,6 @@ end
 return {
     src = src,
     set = {id = "gauge", nodes = nodes},
-    dst = {id = "gauge", dst = {{time = 0, x = geometry.gauge_x, y = 96, w = geometry.gauge_w, h = 51}}}
+    dst = {id = "gauge", dst = {{time = 0, x = geometry.gauge_x, y = geometry.gauge_y, w = geometry.gauge_w, h = 51}}}
 }
 

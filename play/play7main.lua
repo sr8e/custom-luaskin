@@ -337,7 +337,7 @@ local function main()
 			{time = 0, x = geometry.timing_x, y = geometry.timing_y, w = geometry.timing_w, h = geometry.timing_h}
 		}},
 		{id = "song-title", dst = {
-			{time = 0, x = geometry.title_x, y = 1034, w = 24, h = 24},
+			{time = 0, x = geometry.title_x, y = geometry.title_y, w = 24, h = 24},
 			{time = 1000, a = 0},
 			{time = 2000, a = 255}
 		}},
