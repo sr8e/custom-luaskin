@@ -60,7 +60,7 @@ if is_left_side() then
 	geometry.nowbpm_x = 480
 	geometry.maxbpm_x = 615
 
-	geometry.timeleft_y = 160
+	geometry.timeleft_y = 162
 	geometry.timeleft_m_x = 300
 	geometry.timeleft_s_x = 350
 
