@@ -104,14 +104,14 @@ local function main(play_type)
     }
 
     dst.dst = {}
-	for i = 1, keys do
-		dst.dst[i] = {
-			x = geometry.notes_x[i],
-			y = geometry.judge_line_y,  --判定位置
-			w = geometry.notes_w[i],
-			h = geometry.notes_area_h  --ノーツ出現領域高さ
-		}
-	end
+    for i = 1, keys do
+        dst.dst[i] = {
+            x = geometry.notes_x[i],
+            y = geometry.judge_line_y,  --判定位置
+            w = geometry.notes_w[i],
+            h = geometry.notes_area_h  --ノーツ出現領域高さ
+        }
+    end
 
     return {
         src = src,
