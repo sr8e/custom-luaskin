@@ -188,6 +188,7 @@ local function main()
 		{id = "ec_num_p", path = "resource_ec/P.png"},
 		{id = "judgeline", path = "resource_custom/judgeline.png"},
 		{id = "ec_graph", path = "resource_ec/Graph.png"},
+		{id = "autoplay", path = "resource_custom/autoplay.png"},
 	}
 	skin.font = {
 		{id = 0, path = "../VL-Gothic-Regular.ttf"}
@@ -204,6 +205,8 @@ local function main()
 		{id = "lane-bg", src = "lanebg", x = 0, y = 0, w = 639, h = 100},
 		{id = 13, src = 0, x = 10, y = 10, w = 10, h = 251},
 		{id = 15, src = "judgeline", x = 0, y = 0, w = 6, h = 6},
+		{id = "autoplay", src = "autoplay", x = 0, y = 0, w = 300, h = 56},
+		{id = "replay", src = "autoplay", x = 0, y = 56, w = 300, h = 56},
 
 		{id = "judge-early", src = 13, x = 0, y = 0, w = 50, h = 20},
 		{id = "judge-late", src = 13, x = 50, y = 0, w = 50, h = 20}
@@ -319,6 +322,32 @@ local function main()
 			id = "lift-cover", dst = {
 				{x = geometry.lanes_x, y = geometry.judge_line_y - 1073, w = geometry.lanes_w, h = 1073}
 			}
+		},
+		{
+			id = "autoplay",
+			op = {33}, -- OPTION_AUTOPLAYON
+			offset = 3, -- lift ofs
+			dst = {
+				{
+					x = geometry.lanes_x + geometry.lanes_w / 2 - 150,
+					y = geometry.autoplay_y,
+					w = 300,
+					h = 56,
+				}
+			},
+		},
+		{
+			id = "replay",
+			op = {84}, -- OPTION_REPLAY_PLAYING
+			offset = 3, -- lift ofs
+			dst = {
+				{
+					x = geometry.lanes_x + geometry.lanes_w / 2 - 150,
+					y = geometry.autoplay_y,
+					w = 300,
+					h = 56,
+				}
+			},
 		},
 	})
 	append_all(skin.destination, bb.dst)
