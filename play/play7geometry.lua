@@ -14,6 +14,9 @@ geometry.note_w_width = 75
 geometry.note_b_width = 57
 geometry.note_s_width = 132
 
+-- heights
+geometry.autoplay_y = 570
+
 if is_left_side() then
 	geometry.lanes_x = 80 -- 画面左端からの位置,
 	geometry.title_align = 0
