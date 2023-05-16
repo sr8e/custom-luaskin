@@ -7,25 +7,28 @@ local function main(play_type)
     local nx = {b = 96, w = 61, s = 0}
     local ny = {
         note = 4, mine = 33,
-        lns = 76, lne = 59, lnb = 113, lna = 102,
-        hcs = 76, hce = 59, hcb = 113, hca = 102, hcd = 113, hcr = 102
+        lns = 76, lne = 59, lnb = 112, lna = 101,
+        hcs = 76, hce = 59, hcb = 112, hca = 101, hcd = 113, hcr = 102
     }
     local nw = {b = 26, w = 34, s = 60}
     local nh = {
         note = 16, mine = 8,
-        lns = 16, lne = 16, lnb = 1, lna = 1,
-        hcs = 16, hce = 16, hcb = 1, hca = 1, hcd = 1, hcr = 1
+        lns = 16, lne = 16, lnb = 2, lna = 1,
+        hcs = 16, hce = 16, hcb = 2, hca = 1, hcd = 1, hcr = 1
     }
 
     -- generate resource object
     local function note_resource(type, color)
+        ln_animate = type:sub(3, 3) == "b"
         return {
             id=type.."-"..color,
             src="notes",
             x=nx[color],
             y=ny[type],
             w=nw[color],
-            h=nh[type]
+            h=nh[type],
+            divy = ln_animate and 2 or 1,
+            cycle = ln_animate and 300 or 0,
         }
     end
 
