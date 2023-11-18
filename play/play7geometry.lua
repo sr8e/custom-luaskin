@@ -25,8 +25,8 @@ if is_left_side() then
     geometry.judgedetail_x = 350 -- fast/slow 位置
     geometry.judgedetail_y = 540
     -- judge count
-    geometry.judgecount_x = 756
-    geometry.judgecount_y = 100
+    geometry.judgecount_x = 750
+    geometry.judgecount_y = 130
 
     geometry.ready_x = 225
     geometry.title_x = 1200
