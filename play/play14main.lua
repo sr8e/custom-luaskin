@@ -251,9 +251,9 @@ local function main()
         {id = "lift-cover", src = 12, x = 0, y = 0, w = 390, h = 655, disapearLine = geometry.judge_line_y}
     }
     skin.graph = {
-        {id = "graph-now", src = "ec_graph", x = 0, y = 0, w = 896, h = 449, divx=896, cycle=10000, type = 110},
-        {id = "graph-best", src = "ec_graph", x = 0, y = 449, w = 896, h = 449, divx=896, cycle=10000,  type = 112},
-        {id = "graph-target", src = "ec_graph", x = 0, y = 998, w = 896, h = 449, divx=896, cycle=10000,  type = 114},
+        {id = "graph-now", src = "ec_graph", x = 0, y = 0, w = 896, h = 448, divx=896, cycle=10000, type = 110},
+        {id = "graph-best", src = "ec_graph", x = 0, y = 449, w = 896, h = 448, divx=896, cycle=10000,  type = 112},
+        {id = "graph-target", src = "ec_graph", x = 0, y = 998, w = 896, h = 448, divx=896, cycle=10000,  type = 114},
         {id = "load-progress", src = 0, x = 0, y = 0, w = 8, h = 8, angle = 0, type = 102}
     }
 
