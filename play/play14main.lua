@@ -110,6 +110,7 @@ local filepath = {
     {name = "Bomb", path = "bomb/*.png"},
     {name = "Laser", path = "laser/*.png"},
     {name = "Lanecover", path = "lanecover/*.png"},
+    {name = "Graph Area", path = "grapharea/*.png"},
 }
 
 local offset = {
@@ -170,7 +171,8 @@ local function main()
         {id = "ec_num_p", path = "resource_ec/P.png"},
         {id = "judgeline", path = "resource_custom/judgeline.png"},
         {id = "ec_graph", path = "resource_ec/Graph.png"},
-        {id = "options", path = "resource_custom/ops.png"}
+        {id = "options", path = "resource_custom/ops.png"},
+        {id = "grapharea", path = "grapharea/*.png"},
     }
     skin.font = {
         {id = 0, path = "../VL-Gothic-Regular.ttf"}
@@ -197,6 +199,7 @@ local function main()
         {id = "hs-label", src = "options", x = 612, y = 147, w = 56, h = 14},
         {id = "lnmode", src = "options", x = 612, y = 163, w = 62, h = 33, divy = 3, len = 3, ref = 308},
         {id = "judge-timing-label", src = "options", x = 675, y = 147, w = 32, h = 20},
+        {id = "graph-bg", src = "grapharea", x = 100, y = 0, w = 213, h = 666},
     }
     for i = 0, 3 do
         table.insert(skin.image, {id = "judgerank-"..i, src = "options", x = 612, y = 98 + i * 11, w = 124, h = 11})
@@ -268,6 +271,9 @@ local function main()
         {id = "timing"}
     }
     skin.destination = {
+        {id = "graph-bg", dst = {
+            { x = 1707, y = 265, w = 213, h = 666}
+        }},
         {id = "background", dst = {
             {x = 0, y = 0, w = geometry.resolution.x, h = geometry.resolution.y}
         }},
