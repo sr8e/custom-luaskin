@@ -215,6 +215,8 @@ local function main()
         {id = "gauge-option", src = "options", x = 204, y = 0, w = 204, h = 49 * 9, divy = 9, len = 9, ref = 40},
         {id = "option-label", src = "options", x = 612, y = 0, w = 140, h = 98},
         {id = "hs-label", src = "options", x = 612, y = 147, w = 56, h = 14},
+        {id = "lnmode", src = "options", x = 612, y = 163, w = 62, h = 33, divy = 3, len = 3, ref = 308},
+        {id = "judge-timing-label", src = "options", x = 675, y = 147, w = 32, h = 20},
     }
     for i = 0, 3 do
         table.insert(skin.image, {id = "judgerank-"..i, src = "options", x = 612, y = 98 + i * 11, w = 124, h = 11})
@@ -303,10 +305,10 @@ local function main()
             {time = 0, x = geometry.lanebg_x, y = 251, w = geometry.lanebg_w, h = 0, a = 0},
             {time = 1000, h = 828, a = 255}
         }},
-        {id = "random-option", dst = {
+        {id = "gauge-option", dst = {
             { x = 960, y = 1, w = 204, h = 49}
         }},
-        {id = "gauge-option", dst = {
+        {id = "random-option", dst = {
             { x = 960, y = 51, w = 204, h = 49}
         }},
         {id = "option-label", dst = {
@@ -314,6 +316,12 @@ local function main()
         }},
         {id = "hs-label", dst = {
             { x = 560, y = 62, w = 56, h = 21}
+        }},
+        {id = "lnmode", dst = {
+            { x = 450, y = 63, w = 93, h = 16}
+        }},
+        {id = "judge-timing-label", dst = {
+            { x = geometry.judgetiming_x + 18 * 4.5, y = geometry.judgetiming_y, w = 32, h = 20}
         }},
     }
     for i = 0, 3 do

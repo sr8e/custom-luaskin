@@ -82,6 +82,8 @@ if is_left_side() then
 
     geometry.totalnotes_x = 980
     geometry.totalnotes_y = 120
+    geometry.judgetiming_x = 970
+    geometry.judgetiming_y = 187
 
 elseif is_right_side() then
     -- TODO right side geometry
