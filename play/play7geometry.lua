@@ -25,8 +25,8 @@ if is_left_side() then
     geometry.judgedetail_x = 350 -- fast/slow 位置
     geometry.judgedetail_y = 540
     -- judge count
-    geometry.judgecount_x = 756
-    geometry.judgecount_y = 100
+    geometry.judgecount_x = 750
+    geometry.judgecount_y = 130
 
     geometry.ready_x = 225
     geometry.title_x = 1200
@@ -82,6 +82,18 @@ if is_left_side() then
 
     geometry.totalnotes_x = 980
     geometry.totalnotes_y = 120
+    geometry.judgetiming_x = 970
+    geometry.judgetiming_y = 187
+
+    geometry.lnmode_x = 450
+    geometry.lnmode_y = 63
+    geometry.judgerank_x = 338
+    geometry.judgerank_y = 215
+
+    geometry.options_x = 960
+    geometry.options_y = 1
+    geometry.options_label_x = 820
+    geometry.options_label_y = 5
 
 elseif is_right_side() then
     -- TODO right side geometry

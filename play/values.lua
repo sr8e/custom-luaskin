@@ -77,6 +77,8 @@ local values = {
 	value_resource("targetscore", "p", "w", 10, 5, 121),
 	-- notes
 	value_resource("totalnotes", "l", "w", 10, 5, 106),
+	-- judge timing
+	value_resource("judgetiming", "l", "w", 12, 4, 12, 0, 2),
 	-- lanecover
 	value_resource("lanecover-value", "l", "w", 10, 3, 14),
 	value_resource("lanecover-duration", "l", "w", 10, 4, 312),
@@ -171,6 +173,7 @@ local destination = {
     dst("currentscore", geometry.currentscore_x, geometry.currentscore_y, "p", 1),
     dst("targetscore", geometry.targetscore_x, geometry.targetscore_y, "p", 1),
     dst("totalnotes", geometry.totalnotes_x, geometry.totalnotes_y, "l"),
+    dst("judgetiming", geometry.judgetiming_x, geometry.judgetiming_y, "l"),
     dst("gaugevalue", geometry.gaugevalue_x, geometry.gaugevalue_y, "p", 1.6, 1.5),
     dst("scorerate", geometry.scorerate_x, geometry.scorerate_y, "l"),
     dst("scorerate-d", geometry.scorerate_d_x, geometry.scorerate_y, "l"),

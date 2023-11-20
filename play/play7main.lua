@@ -189,6 +189,7 @@ local function main()
         {id = "judgeline", path = "resource_custom/judgeline.png"},
         {id = "ec_graph", path = "resource_ec/Graph.png"},
         {id = "autoplay", path = "resource_custom/autoplay.png"},
+        {id = "options", path = "resource_custom/ops.png"},
     }
     skin.font = {
         {id = 0, path = "../VL-Gothic-Regular.ttf"}
@@ -209,8 +210,17 @@ local function main()
         {id = "replay", src = "autoplay", x = 0, y = 56, w = 300, h = 56},
 
         {id = "judge-early", src = 13, x = 0, y = 0, w = 50, h = 20},
-        {id = "judge-late", src = 13, x = 50, y = 0, w = 50, h = 20}
+        {id = "judge-late", src = 13, x = 50, y = 0, w = 50, h = 20},
+        {id = "random-option", src = "options", x = 0, y = 0, w = 204, h = 49 * 11, divy = 11, len = 11, ref = 42},
+        {id = "gauge-option", src = "options", x = 204, y = 0, w = 204, h = 49 * 9, divy = 9, len = 9, ref = 40},
+        {id = "option-label", src = "options", x = 612, y = 0, w = 140, h = 98},
+        {id = "hs-label", src = "options", x = 612, y = 147, w = 56, h = 14},
+        {id = "lnmode", src = "options", x = 612, y = 163, w = 62, h = 33, divy = 3, len = 3, ref = 308},
+        {id = "judge-timing-label", src = "options", x = 675, y = 147, w = 32, h = 20},
     }
+    for i = 0, 3 do
+        table.insert(skin.image, {id = "judgerank-"..i, src = "options", x = 612, y = 98 + i * 11, w = 124, h = 11})
+    end
 
     local notes_main = require("notes")
     local notes = notes_main("single")
@@ -295,7 +305,34 @@ local function main()
             {time = 0, x = geometry.lanebg_x, y = 251, w = geometry.lanebg_w, h = 0, a = 0},
             {time = 1000, h = 828, a = 255}
         }},
+        {id = "gauge-option", dst = {
+            { x = geometry.options_x, y = geometry.options_y, w = 204, h = 49}
+        }},
+        {id = "random-option", dst = {
+            { x = geometry.options_x, y = geometry.options_y + 49, w = 204, h = 49}
+        }},
+        {id = "option-label", dst = {
+            { x = geometry.options_label_x, y = geometry.options_label_y, w = 140, h = 98}
+        }},
+        {id = "hs-label", dst = {
+            { x = geometry.hispeed_x - 65, y = geometry.hispeed_y, w = 56, h = 21}
+        }},
+        {id = "lnmode", dst = {
+            { x = geometry.lnmode_x, y = geometry.lnmode_y, w = 93, h = 16}
+        }},
+        {id = "judge-timing-label", dst = {
+            { x = geometry.judgetiming_x + 18 * 4.5, y = geometry.judgetiming_y, w = 32, h = 20}
+        }},
     }
+    for i = 0, 3 do
+        table.insert(skin.destination, {
+            id = "judgerank-"..i,
+            op = {183 - i},
+            dst = {
+                {x = geometry.judgerank_x, y = geometry.judgerank_y, w = 186, h = 16}
+            }
+        })
+    end
     append_all(skin.destination, values.dst)
 
     table.insert(skin.destination, {id = 15, offset = 3, dst = { {x = geometry.lanes_x, y = geometry.judge_line_y, w = geometry.lanes_w, h = 6} }}) --判定線
