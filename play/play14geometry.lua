@@ -23,7 +23,7 @@ geometry.judgedetail_x = { left = 520, right = 1308 }
 geometry.judgedetail_y = 540
 -- judge count
 geometry.judgecount_x = 1735
-geometry.judgecount_y = 100
+geometry.judgecount_y = 135
 
 geometry.ready_x = { left = 395, right = 1200 }
 geometry.title_x = 230
@@ -48,14 +48,14 @@ end
 
 -- note graph
 geometry.judgegraph_x = 270
-geometry.judgegraph_y = 5
+geometry.judgegraph_y = 30
 geometry.judgegraph_w = 450
-geometry.judgegraph_h = 75
+geometry.judgegraph_h = 40
 -- timing indicator
-geometry.timing_x = 1200
-geometry.timing_y = 5
+geometry.timing_x = 270
+geometry.timing_y = 0
 geometry.timing_w = 450
-geometry.timing_h = 50
+geometry.timing_h = 30
 -- progress bar
 geometry.progress_x = 183
 geometry.progress_y = 275
@@ -75,17 +75,29 @@ geometry.scorerate_y = 135
 geometry.scorerate_x = 485
 geometry.scorerate_d_x = 550
 
-geometry.hispeed_y = -100
-geometry.hispeed_x = 0
-geometry.hispeed_d_x = 0
+geometry.hispeed_y = 135
+geometry.hispeed_x = 710
+geometry.hispeed_d_x = 758
 
 geometry.currentscore_x = 1770
 geometry.currentscore_y = 1000
 geometry.targetscore_x = 1770
 geometry.targetscore_y = 965
 
-geometry.totalnotes_x = 1770
-geometry.totalnotes_y = 16
+geometry.totalnotes_x = 1760
+geometry.totalnotes_y = 10
+geometry.judgetiming_x = 1750
+geometry.judgetiming_y = 72
+
+geometry.options_label_x = 1365
+geometry.options_label_y = 3
+geometry.options_x = 1500
+geometry.options_y = 0
+
+geometry.lnmode_x = 1250
+geometry.lnmode_y = 214
+geometry.judgerank_x = 465
+geometry.judgerank_y = 214
 
 if is_score_graph_enabled() then
     geometry.graph_x = 1765
