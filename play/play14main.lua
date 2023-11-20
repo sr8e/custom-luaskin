@@ -375,6 +375,7 @@ local function main()
     append_all(skin.destination, bb.dst)
     table.insert(skin.destination, gauge.dst)
 
+    local graph_width = (geometry.graph_w - geometry.graph_margin * 2) / 3
     append_all(skin.destination, {
         {id = "bga", offset = 43, dst = {
             {time = 0, x = geometry.bga_x, y = geometry.bga_y, w = geometry.bga_w, h = geometry.bga_h}
@@ -397,13 +398,13 @@ local function main()
         --    {x = geometry.graph_x, y = geometry.graph_y, w = geometry.graph_w, h = geometry.graph_h}
         --}},
         {id = "graph-now", op = {901},dst = {
-            {x = geometry.graph_x + 1, y = geometry.graph_y, w = geometry.graph_w / 3 - 2, h = geometry.graph_h}
+            {x = geometry.graph_x, y = geometry.graph_y, w = graph_width, h = geometry.graph_h}
         }},
         {id = "graph-best", op = {901},dst = {
-            {x = geometry.graph_x + geometry.graph_w / 3 + 1, y = geometry.graph_y, w = geometry.graph_w / 3 - 2, h = geometry.graph_h}
+            {x = geometry.graph_x + graph_width + geometry.graph_margin, y = geometry.graph_y, w = graph_width, h = geometry.graph_h}
         }},
         {id = "graph-target", op = {901},dst = {
-            {x = geometry.graph_x + geometry.graph_w * 2 / 3 + 1, y = geometry.graph_y, w = geometry.graph_w / 3 - 2, h = geometry.graph_h}
+            {x = geometry.graph_x + (graph_width + geometry.graph_margin) * 2, y = geometry.graph_y, w = graph_width, h = geometry.graph_h}
         }},
         --{id = 12, op = {901},dst = {
         --    {x = geometry.graph_x, y = geometry.graph_y, w = geometry.graph_w, h = geometry.graph_h}
