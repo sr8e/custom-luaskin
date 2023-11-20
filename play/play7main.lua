@@ -306,19 +306,19 @@ local function main()
             {time = 1000, h = 828, a = 255}
         }},
         {id = "gauge-option", dst = {
-            { x = 960, y = 1, w = 204, h = 49}
+            { x = geometry.options_x, y = geometry.options_y, w = 204, h = 49}
         }},
         {id = "random-option", dst = {
-            { x = 960, y = 51, w = 204, h = 49}
+            { x = geometry.options_x, y = geometry.options_y + 49, w = 204, h = 49}
         }},
         {id = "option-label", dst = {
-            { x = 820, y = 5, w = 140, h = 98}
+            { x = geometry.options_label_x, y = geometry.options_label_y, w = 140, h = 98}
         }},
         {id = "hs-label", dst = {
-            { x = 560, y = 62, w = 56, h = 21}
+            { x = geometry.hispeed_x - 65, y = geometry.hispeed_y, w = 56, h = 21}
         }},
         {id = "lnmode", dst = {
-            { x = 450, y = 63, w = 93, h = 16}
+            { x = geometry.lnmode_x, y = geometry.lnmode_y, w = 93, h = 16}
         }},
         {id = "judge-timing-label", dst = {
             { x = geometry.judgetiming_x + 18 * 4.5, y = geometry.judgetiming_y, w = 32, h = 20}
@@ -329,7 +329,7 @@ local function main()
             id = "judgerank-"..i,
             op = {183 - i},
             dst = {
-                {x = 338, y = 215, w = 186, h = 16}
+                {x = geometry.judgerank_x, y = geometry.judgerank_y, w = 186, h = 16}
             }
         })
     end
