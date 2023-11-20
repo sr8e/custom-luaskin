@@ -52,42 +52,42 @@ local function value_resource(id, src_name, col, divx, digit, ref, padding, divy
 end
 
 local values = {
-	-- value_resource(id, src_name, color, divx, digit, ref, padding=0, divy=1, cycle=0)
-	-- bpm indicator
-	value_resource("minbpm", "p", "w", 11, 4, 91),
-	value_resource("nowbpm", "p", "w", 11, 4, 160),
-	value_resource("maxbpm", "p", "w", 11, 4, 90),
-	-- time left
-	value_resource("timeleft-m", "l", "w", 10, 2, 163),
-	value_resource("timeleft-s", "l", "w", 10, 2, 164, 1),
-	-- hi-speed
-	value_resource("hispeed", "l", "w", 10, 2, 310),
-	value_resource("hispeed-d", "l", "w", 10, 2, 311, 1),
-	-- ?
-	value_resource("duration", "l", "w", 10, 4, 312),
-	-- gauge
-	value_resource("gaugevalue", "p", "w", 10, 3, 107),
-	value_resource("gaugevalue-d", "p", "w", 10, 1, 407),
-	-- score rate
-	value_resource("scorerate", "l", "w", 10, 3, 102),
-	value_resource("scorerate-d", "l", "w", 10, 2, 103, 1),
+    -- value_resource(id, src_name, color, divx, digit, ref, padding=0, divy=1, cycle=0)
+    -- bpm indicator
+    value_resource("minbpm", "p", "w", 11, 4, 91),
+    value_resource("nowbpm", "p", "w", 11, 4, 160),
+    value_resource("maxbpm", "p", "w", 11, 4, 90),
+    -- time left
+    value_resource("timeleft-m", "l", "w", 10, 2, 163),
+    value_resource("timeleft-s", "l", "w", 10, 2, 164, 1),
+    -- hi-speed
+    value_resource("hispeed", "l", "w", 10, 2, 310),
+    value_resource("hispeed-d", "l", "w", 10, 2, 311, 1),
+    -- ?
+    value_resource("duration", "l", "w", 10, 4, 312),
+    -- gauge
+    value_resource("gaugevalue", "p", "w", 10, 3, 107),
+    value_resource("gaugevalue-d", "p", "w", 10, 1, 407),
+    -- score rate
+    value_resource("scorerate", "l", "w", 10, 3, 102),
+    value_resource("scorerate-d", "l", "w", 10, 2, 103, 1),
     -- score value
-	value_resource("currentscore", "p", "w", 10, 5, 71),
-	value_resource("bestscore", "p", "w", 10, 5, 150),
-	value_resource("targetscore", "p", "w", 10, 5, 121),
-	-- notes
-	value_resource("totalnotes", "l", "w", 10, 5, 106),
-	-- judge timing
-	value_resource("judgetiming", "l", "w", 12, 4, 12, 0, 2),
-	-- lanecover
-	value_resource("lanecover-value", "l", "w", 10, 3, 14),
-	value_resource("lanecover-duration", "l", "w", 10, 4, 312),
-	--lift
-	value_resource("liftcover-value", "l", "w", 10, 3, 314),
-	--value_resource("liftcover-duration", "n", "w", 10, 4, 312),
-	-- combo
-	value_resource("combo-pg", "j", "pg", 10, 6, 75, 0, 3, 100),
-	value_resource("combo-gr", "j", "y", 10, 6, 75),
+    value_resource("currentscore", "p", "w", 10, 5, 71),
+    value_resource("bestscore", "p", "w", 10, 5, 150),
+    value_resource("targetscore", "p", "w", 10, 5, 121),
+    -- notes
+    value_resource("totalnotes", "l", "w", 10, 5, 106),
+    -- judge timing
+    value_resource("judgetiming", "l", "w", 12, 4, 12, 0, 2),
+    -- lanecover
+    value_resource("lanecover-value", "l", "w", 10, 3, 14),
+    value_resource("lanecover-duration", "l", "w", 10, 4, 312),
+    --lift
+    value_resource("liftcover-value", "l", "w", 10, 3, 314),
+    --value_resource("liftcover-duration", "n", "w", 10, 4, 312),
+    -- combo
+    value_resource("combo-pg", "j", "pg", 10, 6, 75, 0, 3, 100),
+    value_resource("combo-gr", "j", "y", 10, 6, 75),
     value_resource("combo-gd", "j", "y", 10, 6, 75),
 }
 

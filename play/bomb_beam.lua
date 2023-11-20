@@ -38,16 +38,16 @@ local function main(play_type)
     end
     
     for i = 1, keys do
-		table.insert(dst, {
-			id = "keybeam"..i,
-			timer = timer_key_on(i),
-			loop = 100,
-			offsets = {3, 40},
-			dst = {
-				{ time = 0, x = geometry.notes_x[i] + geometry.notes_w[i] / 4, y = geometry.judge_line_y, w = geometry.notes_w[i] / 2, h = geometry.notes_area_h },
-				{ time = 100, x = geometry.notes_x[i], w = geometry.notes_w[i] }
-			}
-		})
+        table.insert(dst, {
+            id = "keybeam"..i,
+            timer = timer_key_on(i),
+            loop = 100,
+            offsets = {3, 40},
+            dst = {
+                { time = 0, x = geometry.notes_x[i] + geometry.notes_w[i] / 4, y = geometry.judge_line_y, w = geometry.notes_w[i] / 2, h = geometry.notes_area_h },
+                { time = 100, x = geometry.notes_x[i], w = geometry.notes_w[i] }
+            }
+        })
     end
 
     --bombs
@@ -66,25 +66,25 @@ local function main(play_type)
     end
 
     for i = 1, keys do
-		table.insert(set, {
-			id = "bombset-"..i,
-			-- ref = value_judge(i),
-			images = { "bomb-"..i } 
-		})
+        table.insert(set, {
+            id = "bombset-"..i,
+            -- ref = value_judge(i),
+            images = { "bomb-"..i } 
+        })
     end
 
-	for i = 1, keys do
-		table.insert(dst, {
-			id = "bombset-"..i,
-			timer = timer_key_bomb(i),
-			blend = 2,
-			loop = -1,
-			offsets = {3, 41},
-			dst = {
-				{ time = 0, x = geometry.lanes_center_x[i] - 125, y = geometry.judge_line_y - 144, w = 270, h = 288 },
-				{ time = 160 }
-			}
-		})
+    for i = 1, keys do
+        table.insert(dst, {
+            id = "bombset-"..i,
+            timer = timer_key_bomb(i),
+            blend = 2,
+            loop = -1,
+            offsets = {3, 41},
+            dst = {
+                { time = 0, x = geometry.lanes_center_x[i] - 125, y = geometry.judge_line_y - 144, w = 270, h = 288 },
+                { time = 160 }
+            }
+        })
     end
 
     for i = 1, keys do

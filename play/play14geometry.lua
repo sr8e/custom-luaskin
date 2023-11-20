@@ -39,11 +39,11 @@ geometry.gaugevalue_y = 180
 geometry.bga_x = 5
 geometry.bga_y = 5
 if is_bga_enabled() then
-	geometry.bga_w = 200
-	geometry.bga_h = 200
+    geometry.bga_w = 200
+    geometry.bga_h = 200
 else
-	geometry.bga_w = 0
-	geometry.bga_h = 0
+    geometry.bga_w = 0
+    geometry.bga_h = 0
 end
 
 -- note graph
@@ -101,14 +101,14 @@ geometry.judgerank_y = 214
 
 if is_score_graph_enabled() then
     geometry.graph_x = 1765
-	geometry.graph_y = 264
-	geometry.graph_w = 150
-	geometry.graph_h = 665
+    geometry.graph_y = 264
+    geometry.graph_w = 150
+    geometry.graph_h = 665
 else
-	geometry.graph_x = 0
-	geometry.graph_y = 0
-	geometry.graph_w = 0
-	geometry.graph_h = 0
+    geometry.graph_x = 0
+    geometry.graph_y = 0
+    geometry.graph_w = 0
+    geometry.graph_h = 0
 end
 
 
@@ -116,51 +116,51 @@ geometry.notes_w = {}
 geometry.lanebg_x = {}
 
 for i = 1, 16 do
-	if get_key_wbs(i) == 0 then
-		geometry.notes_w[i] = geometry.note_w_width
-	elseif get_key_wbs(i) == 1 then
-		geometry.notes_w[i] = geometry.note_b_width
-	else
-		geometry.notes_w[i] = geometry.note_s_width
-	end
+    if get_key_wbs(i) == 0 then
+        geometry.notes_w[i] = geometry.note_w_width
+    elseif get_key_wbs(i) == 1 then
+        geometry.notes_w[i] = geometry.note_b_width
+    else
+        geometry.notes_w[i] = geometry.note_s_width
+    end
 end
 geometry.lanebg_w = geometry.lanes_w
 
 local function calc_lane_pos(side)
-	local x = geometry.lanes_x[side]
-	local pos = {}
+    local x = geometry.lanes_x[side]
+    local pos = {}
 
-	if side == "left" then
-		geometry.lanebg_x[side] = geometry.lanes_x[side]
-		pos[8] = x
-		x = x + geometry.lane_s_width;
-	end	
+    if side == "left" then
+        geometry.lanebg_x[side] = geometry.lanes_x[side]
+        pos[8] = x
+        x = x + geometry.lane_s_width;
+    end    
 
-	local adjust_w = (geometry.lane_w_width - geometry.note_w_width) / 2
-	local adjust_b = (geometry.lane_b_width - geometry.note_b_width) / 2
-	for i = 1, 7 do
-		if get_key_wbs(i) == 0 then
-			pos[i] = x + adjust_w
-			x = x + geometry.lane_w_width
-		else
-			pos[i] = x + adjust_b
-			x = x + geometry.lane_b_width
-		end
-	end
+    local adjust_w = (geometry.lane_w_width - geometry.note_w_width) / 2
+    local adjust_b = (geometry.lane_b_width - geometry.note_b_width) / 2
+    for i = 1, 7 do
+        if get_key_wbs(i) == 0 then
+            pos[i] = x + adjust_w
+            x = x + geometry.lane_w_width
+        else
+            pos[i] = x + adjust_b
+            x = x + geometry.lane_b_width
+        end
+    end
 
-	if side == "right" then
-		geometry.lanebg_x[side] = geometry.lanes_x[side] + geometry.lanes_w
-		pos[8] = x
-	end
+    if side == "right" then
+        geometry.lanebg_x[side] = geometry.lanes_x[side] + geometry.lanes_w
+        pos[8] = x
+    end
 
-	local center = {}
-	for i = 1, 8 do
-		center[i] = pos[i] + geometry.notes_w[i] / 2
-	end
-	return {
-		pos = pos,
-		center = center
-	}
+    local center = {}
+    for i = 1, 8 do
+        center[i] = pos[i] + geometry.notes_w[i] / 2
+    end
+    return {
+        pos = pos,
+        center = center
+    }
 end
 
 local pos_l = calc_lane_pos("left")
@@ -168,11 +168,11 @@ local pos_r = calc_lane_pos("right")
 geometry.notes_x = pos_l.pos
 geometry.lanes_center_x = pos_l.center
 for _, v in ipairs(pos_r.pos) do
-	table.insert(geometry.notes_x, v)
+    table.insert(geometry.notes_x, v)
 end
 
 for _, v in ipairs(pos_r.center) do
-	table.insert(geometry.lanes_center_x, v)
+    table.insert(geometry.lanes_center_x, v)
 end
 
 
