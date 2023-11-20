@@ -127,9 +127,10 @@ elseif is_right_side() then
     geometry.progress_h = 540
 end
 
+geometry.graph_margin = 25
 if is_score_graph_enabled() then
     if is_left_side() then
-        geometry.graph_x = 810 --geometry.lanes_x + geometry.lanes_w
+        geometry.graph_x = 780 --geometry.lanes_x + geometry.lanes_w
         --geometry.title_x = geometry.title_x + 90
         geometry.bga_x = geometry.bga_x + 90
         geometry.bga_w = geometry.bga_w - 90
@@ -140,8 +141,8 @@ if is_score_graph_enabled() then
         geometry.bga_w = geometry.bga_w - 90
         geometry.judgecount_x = geometry.judgecount_x - 90
     end
-    geometry.graph_y = 264
-    geometry.graph_w = 350
+    geometry.graph_y = 265
+    geometry.graph_w = 370
     geometry.graph_h = 665
 else
     geometry.graph_x = 0

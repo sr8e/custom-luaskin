@@ -272,9 +272,9 @@ local function main()
         {id = "lift-cover", src = 12, x = 0, y = 0, w = 390, h = 655, disapearLine = geometry.judge_line_y}
     }
     skin.graph = {
-        {id = "graph-now", src = "ec_graph", x = 0, y = 0, w = 896, h = 449, divx=896, cycle=10000, type = 110},
-        {id = "graph-best", src = "ec_graph", x = 0, y = 449, w = 896, h = 449, divx=896, cycle=10000,  type = 112},
-        {id = "graph-target", src = "ec_graph", x = 0, y = 998, w = 896, h = 449, divx=896, cycle=10000,  type = 114},
+        {id = "graph-now", src = "ec_graph", x = 0, y = 0, w = 896, h = 448, divx=896, cycle=10000, type = 110},
+        {id = "graph-best", src = "ec_graph", x = 0, y = 449, w = 896, h = 448, divx=896, cycle=10000,  type = 112},
+        {id = "graph-target", src = "ec_graph", x = 0, y = 998, w = 896, h = 448, divx=896, cycle=10000,  type = 114},
         {id = "load-progress", src = 0, x = 0, y = 0, w = 8, h = 8, angle = 0, type = 102}
     }
 
@@ -396,6 +396,7 @@ local function main()
     append_all(skin.destination, bb.dst)
     table.insert(skin.destination, gauge.dst)
 
+    local graph_width = (geometry.graph_w - geometry.graph_margin * 2) / 3
     append_all(skin.destination, {
         {id = "bga", offset = 43, dst = {
             {time = 0, x = geometry.bga_x, y = geometry.bga_y, w = geometry.bga_w, h = geometry.bga_h}
@@ -418,13 +419,13 @@ local function main()
         --    {x = geometry.graph_x, y = geometry.graph_y, w = geometry.graph_w, h = geometry.graph_h}
         --}},
         {id = "graph-now", op = {901},dst = {
-            {x = geometry.graph_x + 1, y = geometry.graph_y, w = geometry.graph_w / 3 - 2, h = geometry.graph_h}
+            {x = geometry.graph_x, y = geometry.graph_y, w = graph_width, h = geometry.graph_h}
         }},
         {id = "graph-best", op = {901},dst = {
-            {x = geometry.graph_x + geometry.graph_w / 3 + 1, y = geometry.graph_y, w = geometry.graph_w / 3 - 2, h = geometry.graph_h}
+            {x = geometry.graph_x + graph_width + geometry.graph_margin, y = geometry.graph_y, w = graph_width, h = geometry.graph_h}
         }},
         {id = "graph-target", op = {901},dst = {
-            {x = geometry.graph_x + geometry.graph_w * 2 / 3 + 1, y = geometry.graph_y, w = geometry.graph_w / 3 - 2, h = geometry.graph_h}
+            {x = geometry.graph_x + (graph_width + geometry.graph_margin) * 2, y = geometry.graph_y, w = graph_width, h = geometry.graph_h}
         }},
         --{id = 12, op = {901},dst = {
         --    {x = geometry.graph_x, y = geometry.graph_y, w = geometry.graph_w, h = geometry.graph_h}

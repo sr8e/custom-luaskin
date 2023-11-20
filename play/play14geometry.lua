@@ -99,10 +99,11 @@ geometry.lnmode_y = 214
 geometry.judgerank_x = 465
 geometry.judgerank_y = 214
 
+geometry.graph_margin = 10
 if is_score_graph_enabled() then
-    geometry.graph_x = 1765
-    geometry.graph_y = 264
-    geometry.graph_w = 150
+    geometry.graph_x = 1720
+    geometry.graph_y = 265
+    geometry.graph_w = 190
     geometry.graph_h = 665
 else
     geometry.graph_x = 0
